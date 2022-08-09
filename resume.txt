@@ -1,0 +1,21 @@
+- Los roles disponibles se obtienen del token (guardarlos en preferences?)
+- Los roles se definen como enums (RoleEnum)
+- AppProvider tiene un campo RoleEnum? selectedRole
+- Este campo se establecera a un rol cuando se traiga el token, o cuando el usuario seleccione el rol que usara durante la sesion (pensando en que un usuario puede tener N roles)
+- Se crea un RoleManager encargado de la autorizacion a la navegacion de pantallas por rol
+- RoleManager tiene acceso al AppProvider
+- RoleManager tiene un metodo que recibe un PageName (enum) y lanza una Exception si no se permite el acceso a dicha pagina con el selectedRole del AppProvider (se puede cambiar para que devuelva un bool)
+- Este metodo se invoca tanto en el _goPage como en el _goBack del PageManager
+
+PROS
+- La logica de verificar el acceso a una pantalla esta aislada en el RoleManager
+- A diferencia de la primera alternativa, esta permite verificar cuando hacemos popAndPushNamed (la alternativa anterior no permitia esto), de manera que podemos verificar el acceso a la pantalla que se va a pushear al hacer pop
+- Se puede plantear pasar como parametro el valor del rol seleccionado para reducir mas el acoplamiento y quitar el AppProvider de la logica
+
+CONS
+- Esta logica no funciona para el DataManager (no existe un enum para detectar que metodos son de cada rol). Esto se podria salvar si dicha logica la lanza API con un 401 o trabajamos con anotaciones
+- Se deben declarar las listas con los PageNames para cada rol en el RoleManager a mano
+- Si dos o mas roles (pero no todos) tienen acceso a una misma pantalla, esta pantalla aparecera reptida en cada lista de los roles
+
+
+
