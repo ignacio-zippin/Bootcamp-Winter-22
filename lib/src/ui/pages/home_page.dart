@@ -59,7 +59,7 @@ class _HomePageState extends StateMVC<HomePage> {
                   height: 15,
                 ),
                 RoundedButton(
-                  text: "Ejemplo 1",
+                  text: "Horizontal Options Transition",
                   onPressed: () {
                     _con.onPressExample1();
                   },
