@@ -33,6 +33,7 @@ class _HomePageState extends StateMVC<HomePage> {
 
   @override
   void dispose() {
+    _con.dispose();
     super.dispose();
   }
 
@@ -66,13 +67,19 @@ class _HomePageState extends StateMVC<HomePage> {
                   height: 5,
                 ),
                 const Divider(thickness: 2),
-                const SizedBox(
-                  height: 15,
-                ),
+                _sizedBox15(),
                 RoundedButton(
                   text: "Horizontal Options Transition",
                   onPressed: () {
                     _con.onPressExample1();
+                  },
+                  width: double.infinity,
+                ),
+                _sizedBox15(),
+                RoundedButton(
+                  text: "Header Fijo",
+                  onPressed: () {
+                    _con.onPressStickyHeader();
                   },
                   width: double.infinity,
                 ),
@@ -81,6 +88,12 @@ class _HomePageState extends StateMVC<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  _sizedBox15() {
+    return const SizedBox(
+      height: 15,
     );
   }
 }

@@ -28,4 +28,8 @@ class HomePageController extends ControllerMVC implements IViewController {
   onPressExample1() {
     PageManager().goExample1Page();
   }
+
+  onPressStickyHeader(){
+    PageManager().goStickyHeaderPage();
+  }
 }
