@@ -24,6 +24,12 @@ class _HorizontalOptionsTransitionPageState
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
+  AnimationController? animationController;
+  Animation? startAnimation;
+  Animation? endAnimation;
+  Animation? horiziontalAnimation;
+  PageController? pageController;
+
   @override
   void initState() {
     _con.initPage(arguments: widget.args);
@@ -34,12 +40,6 @@ class _HorizontalOptionsTransitionPageState
   void dispose() {
     super.dispose();
   }
-
-  AnimationController? animationController;
-  Animation? startAnimation;
-  Animation? endAnimation;
-  Animation? horiziontalAnimation;
-  PageController? pageController;
 
   @override
   Widget build(BuildContext context) {
