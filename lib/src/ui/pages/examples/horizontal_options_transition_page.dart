@@ -2,24 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/ui/components/appbar/custom_navigation_bar_component.dart';
 import 'package:playground_app/src/ui/components/menu/menu_component.dart';
-import 'package:playground_app/src/ui/page_controllers/examples/example1_page_controller.dart';
+import 'package:playground_app/src/ui/page_controllers/examples/horizontal_options_transition_page_controller.dart';
 import 'package:playground_app/utils/page_args.dart';
 import 'package:playground_app/values/k_colors.dart';
 import 'package:playground_app/values/k_values.dart';
 
-class Example1Page extends StatefulWidget {
+class HorizontalOptionsTransitionPage extends StatefulWidget {
   final PageArgs? args;
-  const Example1Page(this.args, {Key? key}) : super(key: key);
+  const HorizontalOptionsTransitionPage(this.args, {Key? key})
+      : super(key: key);
 
   @override
-  _Example1PageState createState() => _Example1PageState();
+  _HorizontalOptionsTransitionPageState createState() =>
+      _HorizontalOptionsTransitionPageState();
 }
 
-class _Example1PageState extends StateMVC<Example1Page> {
-  late Example1PageController _con;
+class _HorizontalOptionsTransitionPageState
+    extends StateMVC<HorizontalOptionsTransitionPage> {
+  late HorizontalOptionsTransitionPageController _con;
 
-  _Example1PageState() : super(Example1PageController()) {
-    _con = Example1PageController.con;
+  _HorizontalOptionsTransitionPageState()
+      : super(HorizontalOptionsTransitionPageController()) {
+    _con = HorizontalOptionsTransitionPageController.con;
   }
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
