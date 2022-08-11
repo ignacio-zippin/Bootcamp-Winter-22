@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/models/horizontal_options_transition/home_model.dart';
+import 'package:playground_app/src/providers/app_provider.dart';
 import 'package:playground_app/src/ui/components/examples/horizontal_options_transition/animated_circle.dart';
 import 'package:playground_app/src/ui/page_controllers/examples/horizontal_options_transition_page_controller.dart';
 import 'package:playground_app/utils/page_args.dart';
 import 'package:playground_app/values/k_colors.dart';
-import 'package:provider/provider.dart';
 
 class HorizontalOptionsTransitionPage extends StatefulWidget {
   final PageArgs? args;
@@ -26,8 +26,6 @@ class _HorizontalOptionsTransitionPageState
       : super(HorizontalOptionsTransitionPageController()) {
     _con = HorizontalOptionsTransitionPageController.con;
   }
-
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   AnimationController? animationController;
   Animation<double>? startAnimation;
@@ -62,18 +60,16 @@ class _HorizontalOptionsTransitionPageState
 
     animationController!
       ..addStatusListener((status) {
-        final model = Provider.of<HomeModel>(context);
         if (status == AnimationStatus.completed) {
-          model.swapColors();
+          AppProvider().swapColors();
           animationController!.reset();
         }
       })
       ..addListener(() {
-        final model = Provider.of<HomeModel>(context);
         if (animationController!.value > 0.5) {
-          model.isHalfway = true;
+          AppProvider().isHalfway = true;
         } else {
-          model.isHalfway = true;
+          AppProvider().isHalfway = true;
         }
       });
   }
@@ -85,33 +81,35 @@ class _HorizontalOptionsTransitionPageState
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<HomeModel>(context);
+    HomeModel model = HomeModel();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor:
-          model.isHalfway ? model.foregroundColor : model.backgroundColor,
+      backgroundColor: AppProvider().isHalfway
+          ? AppProvider().foregroundColor
+          : AppProvider().backgroundColor,
       body: Stack(
         children: [
           Container(
-            color:
-                model.isHalfway ? model.foregroundColor : model.backgroundColor,
-            width: screenHeight / 2.0 - HomeModel.radius / 2.0,
+            color: AppProvider().isHalfway
+                ? AppProvider().foregroundColor
+                : AppProvider().backgroundColor,
+            width: screenHeight / 2.0 - model.radius! / 2.0,
             height: double.infinity,
           ),
           Transform(
             transform: Matrix4.identity()
-              ..translate(screenWidth / 2 - HomeModel.radius / 2,
-                  screenHeight - HomeModel.radius, HomeModel.bottomPadding),
+              ..translate(screenWidth / 2 - model.radius! / 2,
+                  screenHeight - model.radius!, model.bottomPadding!),
             child: GestureDetector(
               onTap: () {
                 if (animationController!.status != AnimationStatus.forward) {
-                  model.isToggled = !model.isToggled;
-                  model.index++;
-                  if (model.index > 3) {
-                    model.index = 0;
+                  AppProvider().isToggled = !AppProvider().isToggled;
+                  AppProvider().index++;
+                  if (AppProvider().index > 3) {
+                    AppProvider().index = 0;
                   }
-                  pageController!.animateToPage(model.index,
+                  pageController!.animateToPage(AppProvider().index,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOutQuad);
                   animationController!.forward();
@@ -121,18 +119,18 @@ class _HorizontalOptionsTransitionPageState
                 children: [
                   AnimatedCircle(
                     animation: startAnimation!,
-                    color: model.foregroundColor,
+                    color: AppProvider().foregroundColor,
                     flip: 1.0,
-                    tween: Tween<double>(begin: 1.0, end: HomeModel.radius),
+                    tween: Tween<double>(begin: 1.0, end: model.radius),
                   ),
                   AnimatedCircle(
                     animation: endAnimation!,
-                    color: model.backgroundColor,
+                    color: AppProvider().backgroundColor,
                     flip: -1.0,
                     horizontalTween:
-                        Tween<double>(begin: 0, end: -HomeModel.radius),
+                        Tween<double>(begin: 0, end: -model.radius!),
                     horizontalAnimation: horizontalAnimation,
-                    tween: Tween<double>(begin: HomeModel.radius, end: 1.0),
+                    tween: Tween<double>(begin: model.radius, end: 1.0),
                   ),
                 ],
               ),
