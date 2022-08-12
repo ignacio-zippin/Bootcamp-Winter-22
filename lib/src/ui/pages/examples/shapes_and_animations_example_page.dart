@@ -222,6 +222,8 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage> {
       return 1;
     } else if (_timerValue < 0) {
       return 0;
+    } else {
+      return _timerValue;
     }
   }
 
