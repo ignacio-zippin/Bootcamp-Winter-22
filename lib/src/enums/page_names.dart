@@ -4,4 +4,5 @@ enum PageNames {
   //Common
   home,
   example1,
+  example2,
 }

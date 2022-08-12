@@ -76,6 +76,14 @@ class _HomePageState extends StateMVC<HomePage> {
                   },
                   width: double.infinity,
                 ),
+                const SizedBox(height: 15),
+                RoundedButton(
+                  text: "Shapes and Animations",
+                  onPressed: () {
+                    _con.onPressExample2();
+                  },
+                  width: double.infinity,
+                ),
               ],
             ),
           ),
