@@ -19,8 +19,6 @@ class _StickyHeaderPageState extends StateMVC<StickyHeaderPage> {
     _con = StickyHeaderPageController.con;
   }
 
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
-
   @override
   void initState() {
     _con.initPage(arguments: widget.args);
@@ -35,16 +33,38 @@ class _StickyHeaderPageState extends StateMVC<StickyHeaderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        key: _key,
-        appBar: simpleNavigationBar(
-            title: "Sticky Header",
-            hideInfoButton: true,
-            onBack: _con.onPressBack,
-            hideNotificationButton: true),
-        body: const Text('Sticky Header')
+     return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.black,
+              expandedHeight: 200.0,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: const Text(
+                  "Silentium Apps",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                background: Image.network(
+                  'https://w0.peakpx.com/wallpaper/86/756/HD-wallpaper-macbook-ultra-computers-mac-dark-laptop-technology-computer-keyboard-macbook.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ];
+        },
+        body: CustomScrollView(
+          slivers: <Widget>[
+            
+          ],
+        ),
       ),
     );
   }
+  
 }
