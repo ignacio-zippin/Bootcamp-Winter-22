@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:playground_app/src/ui/shared/globals.dart';
+import 'package:playground_app/values/k_values.dart';
 
 class HorizontalOptionsTransitionProvider extends ChangeNotifier {
   int _index = 0;
@@ -26,23 +26,23 @@ class HorizontalOptionsTransitionProvider extends ChangeNotifier {
 
   void swapColors() {
     if (_isToggled) {
-      _backGroundColor = Global.palette[1];
-      _foreGroundColor = Global.palette[0];
+      _backGroundColor = hotPalette[1];
+      _foreGroundColor = hotPalette[0];
     } else {
-      _backGroundColor = Global.palette[0];
-      _foreGroundColor = Global.palette[1];
+      _backGroundColor = hotPalette[0];
+      _foreGroundColor = hotPalette[1];
     }
     notifyListeners();
   }
 
-  Color _backGroundColor = Global.palette[0];
+  Color _backGroundColor = hotPalette[0];
   get backGroundColor => _backGroundColor;
   set backGroundColor(value) {
     _backGroundColor = value;
     notifyListeners();
   }
 
-  Color _foreGroundColor = Global.palette[1];
+  Color _foreGroundColor = hotPalette[1];
   get foreGroundColor => _foreGroundColor;
   set foreGroundColor(value) {
     _foreGroundColor = value;

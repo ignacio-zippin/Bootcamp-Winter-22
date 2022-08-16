@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:playground_app/src/providers/horizontal_options_transition_provider.dart';
-import 'package:playground_app/src/ui/shared/globals.dart';
+import 'package:playground_app/values/k_colors.dart';
+import 'package:playground_app/values/k_values.dart';
 import 'package:provider/provider.dart';
 
 class AnimatedCircle extends AnimatedWidget {
@@ -40,18 +41,17 @@ class AnimatedCircle extends AnimatedWidget {
                 : 0.0,
           ),
         child: Container(
-          width: Global.radius,
-          height: Global.radius,
+          width: hotRadius,
+          height: hotRadius,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(
-              Global.radius / 2.0 -
-                  tween.evaluate(animation) / (Global.radius / 2.0),
+              hotRadius / 2.0 - tween.evaluate(animation) / (hotRadius / 2.0),
             ),
           ),
           child: Icon(
             flip == 1 ? Icons.keyboard_arrow_right : Icons.keyboard_arrow_left,
-            color: model.index % 2 == 0 ? Global.white : Global.mediumBlue,
+            color: model.index % 2 == 0 ? KWhite : KBlue_L1,
           ),
         ),
       ),
