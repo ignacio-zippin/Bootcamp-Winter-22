@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:playground_app/src/ui/shared/globals.dart';
 
-class HomeModel extends ChangeNotifier {
+class HorizontalOptionsTransitionProvider extends ChangeNotifier {
   int _index = 0;
   get index => _index;
   set index(value) {
