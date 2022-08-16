@@ -50,12 +50,12 @@ class _HorizontalOptionsTransitionPageState
 
     endAnimation = CurvedAnimation(
       parent: animationController!,
-      curve: const Interval(0.500, 1.000, curve: Curves.easeInExpo),
+      curve: const Interval(0.500, 1.000, curve: Curves.easeOutExpo),
     );
 
     horizontalAnimation = CurvedAnimation(
       parent: animationController!,
-      curve: const Interval(0.750, 1.000, curve: Curves.easeOutQuad),
+      curve: const Interval(0.750, 1.000, curve: Curves.easeInOutQuad),
     );
 
     animationController!
@@ -76,6 +76,7 @@ class _HorizontalOptionsTransitionPageState
 
   @override
   void dispose() {
+    animationController!.dispose();
     super.dispose();
   }
 
@@ -99,7 +100,7 @@ class _HorizontalOptionsTransitionPageState
           ),
           Transform(
             transform: Matrix4.identity()
-              ..translate(screenWidth / 2 - model.radius! / 2,
+              ..translate(screenWidth / 2 - model.radius! / 2.0,
                   screenHeight - model.radius!, model.bottomPadding!),
             child: GestureDetector(
               onTap: () {

@@ -36,7 +36,7 @@ class AnimatedCircle extends AnimatedWidget {
       child: Transform(
         transform: Matrix4.identity()
           ..translate(
-            horizontalTween != null && horizontalAnimation != null
+            horizontalTween != null
                 ? horizontalTween!.evaluate(horizontalAnimation!)
                 : 0.0,
           ),
