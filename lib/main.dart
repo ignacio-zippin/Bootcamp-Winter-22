@@ -5,6 +5,7 @@ import 'package:playground_app/src/enums/culture.dart';
 import 'package:playground_app/src/managers/data_manager/data_manager.dart';
 import 'package:playground_app/src/managers/page_manager/page_manager.dart';
 import 'package:playground_app/src/providers/app_provider.dart';
+import 'package:playground_app/src/providers/home_model.dart';
 import 'package:playground_app/src/support/futuristic.dart';
 import 'package:playground_app/src/ui/components/common/loading_component.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
@@ -18,6 +19,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AppProvider()),
+        ChangeNotifierProvider(create: (_) => HomeModel()),
       ],
       child: const MyApp(),
     ),
