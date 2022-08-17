@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:playground_app/src/enums/horizontal_options_transition/lightswitches_enum.dart';
 import 'package:playground_app/values/k_values.dart';
 
 class HorizontalOptionsTransitionProvider extends ChangeNotifier {
@@ -46,6 +47,46 @@ class HorizontalOptionsTransitionProvider extends ChangeNotifier {
   get foreGroundColor => _foreGroundColor;
   set foreGroundColor(value) {
     _foreGroundColor = value;
+    notifyListeners();
+  }
+
+  //Light Switches
+  final List<double> _sliderValues = [1.0, 1.0, 1.0];
+  List get sliderValues => _sliderValues;
+  void setSliderValue(index, value) {
+    setState(ViewState.busy);
+    _sliderValues[index] = value;
+    notifyListeners();
+  }
+
+  double getFormula(index, width) =>
+      boxWidth + sliderValues[index] * (width - boxWidth * 2 - sidePadding * 2);
+
+  double getStartWidth(width) => width - sidePadding * 4 - boxWidth;
+
+  final List<double?> _widthValues = [null, null, null];
+  get widthValues => _widthValues;
+  void setWidth(index, width) {
+    if (switchValues[index]) {
+      _widthValues[index] = getFormula(index, width);
+    } else {
+      _widthValues[index] = width - sidePadding * 4;
+    }
+    notifyListeners();
+  }
+
+  ViewState _state = ViewState.idle;
+  get state => _state;
+  void setState(ViewState viewState) {
+    _state = viewState;
+    notifyListeners();
+  }
+
+  final List<bool> _switchValues = [true, true, true];
+  List get switchValues => _switchValues;
+  void setSwitchValues(index, value) {
+    setState(ViewState.idle);
+    _switchValues[index] = value;
     notifyListeners();
   }
 }
