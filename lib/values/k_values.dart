@@ -21,3 +21,9 @@ const List<Color> hotPalette = [KWhite, KBlue_L1];
 const double hotScale = 1;
 const double hotRadius = 88.0;
 const double hotBottomPadding = 75.0;
+
+//Light Switches
+const double lswSidePadding = 10.0;
+const double lswBoxWidth = 100.0;
+const double lswBoxHeight = 100.0;
+const double lswTrackHeight = 100.0;

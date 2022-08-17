@@ -49,3 +49,4 @@ const Color KDisableText = Color(0xFFBABABA);
 
 //Horizontal Options Transition
 const Color KBlue_L1 = Color(0xff4A64FE);
+const Color KBlue_T2 = Color(0xff1c2a7f);
