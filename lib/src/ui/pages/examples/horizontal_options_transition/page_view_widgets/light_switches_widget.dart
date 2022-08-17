@@ -25,7 +25,7 @@ class _LightSwitchesWidgetState extends State<LightSwitchesWidget> {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 3, //TODO: cambiar
+        itemCount: widget.controller.homeItems.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),

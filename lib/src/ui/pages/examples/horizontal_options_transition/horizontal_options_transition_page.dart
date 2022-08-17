@@ -5,6 +5,7 @@ import 'package:playground_app/src/ui/components/examples/horizontal_options_tra
 import 'package:playground_app/src/ui/page_controllers/examples/horizontal_options_transition/horizontal_options_transition_page_controller.dart';
 import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition/page_view_widgets/light_switches_widget.dart';
 import 'package:playground_app/utils/page_args.dart';
+import 'package:playground_app/values/k_colors.dart';
 import 'package:playground_app/values/k_values.dart';
 import 'package:provider/provider.dart';
 
@@ -111,39 +112,48 @@ class _HorizontalOptionsTransitionPageState
                 switch (index) {
                   case 0:
                     return Center(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        color: Colors.amber,
+                      child: Text(
+                        'Page ${index + 1}',
+                        style: TextStyle(
+                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     );
                   case 1:
                     return LightSwitchesWidget(_con);
-
                   case 2:
                     return Center(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        color: Colors.amber,
+                      child: Text(
+                        'Page ${index + 1}',
+                        style: TextStyle(
+                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     );
-
                   case 3:
                     return Center(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        color: Colors.amber,
+                      child: Text(
+                        'Page ${index + 1}',
+                        style: TextStyle(
+                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     );
-
                   default:
                     return Center(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        color: Colors.amber,
+                      child: Text(
+                        'Page ${index + 1}',
+                        style: TextStyle(
+                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     );
                 }
