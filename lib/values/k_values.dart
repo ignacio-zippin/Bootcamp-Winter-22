@@ -23,26 +23,7 @@ const double hotRadius = 88.0;
 const double hotBottomPadding = 75.0;
 
 //Light Switches
-const Color lightBlue = Color(0xffdee6f3);
-const Color white = Color(0xff4A64FE);
-const Color babyBlue = Color(0xff00deff);
-const Color darkBlue = Color(0xff1c2a7f);
-const Color lightBlack = Color(0xff201F22);
-const Color mediumBlue = Color(0xffffffff);
-const Color lightGrey = Color(0xfff1f3f6);
-const Color darkGrey = Color(0xffa3a6a9);
-
-const double sidePadding = 10.0;
-const double boxWidth = 100.0;
-const double boxHeight = 100.0;
-const double trackHeight = 100.0;
-
-final List<Map> homeItems = [
-  {
-    'location': 'Living Room',
-    'power': '8.5 Kwh',
-    'icon': Icons.lightbulb_outline
-  },
-  {'location': 'Kitchen', 'power': '4.6 Kwh', 'icon': Icons.lightbulb_outline},
-  {'location': 'Bedroom', 'power': '7.2 Kwh', 'icon': Icons.lightbulb_outline},
-];
+const double lswSidePadding = 10.0;
+const double lswBoxWidth = 100.0;
+const double lswBoxHeight = 100.0;
+const double lswTrackHeight = 100.0;

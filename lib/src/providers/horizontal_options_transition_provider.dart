@@ -60,9 +60,10 @@ class HorizontalOptionsTransitionProvider extends ChangeNotifier {
   }
 
   double getFormula(index, width) =>
-      boxWidth + sliderValues[index] * (width - boxWidth * 2 - sidePadding * 2);
+      lswBoxWidth +
+      sliderValues[index] * (width - lswBoxWidth * 2 - lswSidePadding * 2);
 
-  double getStartWidth(width) => width - sidePadding * 4 - boxWidth;
+  double getStartWidth(width) => width - lswSidePadding * 2 - lswBoxWidth;
 
   final List<double?> _widthValues = [null, null, null];
   get widthValues => _widthValues;
@@ -70,7 +71,7 @@ class HorizontalOptionsTransitionProvider extends ChangeNotifier {
     if (switchValues[index]) {
       _widthValues[index] = getFormula(index, width);
     } else {
-      _widthValues[index] = width - sidePadding * 4;
+      _widthValues[index] = width - lswSidePadding * 4;
     }
     notifyListeners();
   }

@@ -22,11 +22,31 @@ class HorizontalOptionsTransitionPageController extends ControllerMVC
 
   HorizontalOptionsTransitionPageController._();
 
+  //Horizontal Options Transition
   AnimationController? animationController;
   Animation<double>? startAnimation;
   Animation<double>? endAnimation;
   Animation<double>? horizontalAnimation;
   PageController? pageController;
+
+  //Light Switches
+  final List<Map> homeItems = [
+    {
+      'location': 'Oficina 17 5to Piso',
+      'power': '15.7 Mwh',
+      'icon': Icons.lightbulb_outline
+    },
+    {
+      'location': 'Oficina 15 5to Piso',
+      'power': '2.3 Mwh',
+      'icon': Icons.lightbulb_outline
+    },
+    {
+      'location': 'Oficina 6 1er Piso',
+      'power': '8.4 Mwh',
+      'icon': Icons.lightbulb_outline
+    },
+  ];
 
   @override
   void initPage(
