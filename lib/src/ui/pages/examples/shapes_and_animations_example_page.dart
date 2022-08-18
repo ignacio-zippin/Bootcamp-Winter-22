@@ -184,46 +184,87 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage> {
   }
 
   Widget _starsMask() {
-    return Container(
-      color: Colors.purpleAccent,
-      child: Stack(
-        children: [
-          Positioned(
-            right: (_maskWidth * 0.9),
-            bottom: (_maskWidth * _timerValue),
-            child: Icon(
-              Icons.star_rate,
-              color: _color.withOpacity(_getOpacity()),
-            ),
+    return Stack(
+      children: [
+        Positioned(
+          right: (_maskWidth * 0.84),
+          bottom: (_maskWidth * _timerValue),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
           ),
-          Positioned(
-            right: (_maskWidth * 0.7),
-            bottom: ((_maskWidth * 0.5) * (_timerValue)),
-            child: Icon(
-              Icons.star_rate,
-              color: _color.withOpacity(_getOpacity()),
-            ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.7),
+          bottom: ((_maskWidth * 0.5) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
           ),
-          Positioned(
-            right: (_maskWidth * 0.8),
-            bottom: ((_maskWidth * 1.2) * (_timerValue)),
-            child: Icon(
-              Icons.star_rate,
-              color: _color.withOpacity(_getOpacity()),
-            ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.8),
+          bottom: ((_maskWidth * 1.2) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.1),
+          bottom: ((_maskWidth * 1.1) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.3),
+          bottom: ((_maskWidth * 0.2) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.35),
+          bottom: ((_maskWidth * 0.1) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+      ],
     );
   }
 
   double _getOpacity() {
-    if (_timerValue > 1) {
-      return 1;
-    } else if (_timerValue < 0) {
+    if (_timerValue <= 0) {
       return 0;
-    } else {
+    } else if (_timerValue <= 0.5) {
       return _timerValue;
+    } else if (_timerValue > 0.5) {
+      if (_timerValue >= 1) {
+        return 0;
+      } else {
+        return 1 - _timerValue;
+      }
+    } else {
+      return 0.5;
+    }
+  }
+
+  double _getOpacity2() {
+    if (_timerValue < 0.5) {
+      return 0;
+    } else if (_timerValue >= 0.5 && (_timerValue + 0.5) <= 1.5) {
+      if (_timerValue < 1) {
+        return _timerValue - 0.5;
+      } else {
+        return 1 - (_timerValue + 0.5);
+      }
+    } else {
+      return 0.5;
     }
   }
 
