@@ -6,10 +6,10 @@ import 'package:playground_app/src/models/horizontal_options_transition/song_mod
 // ignore: must_be_immutable
 class SongItem extends StatefulWidget {
   SongModel song;
-  int count;
+  int index;
   bool delayAimation;
 
-  SongItem(this.song, this.count, this.delayAimation, {Key? key})
+  SongItem(this.song, this.index, this.delayAimation, {Key? key})
       : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     moveController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         fromPostion = getPositionFromKey(containerKey);
-        if (widget.count == 1) {
+        if (widget.index == 1) {
           cdCotroller.forward();
         }
       }
@@ -97,7 +97,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     double cdSize = 100;
     double cdAnimation = 0;
 
-    if (widget.count == 1) {
+    if (widget.index == 1) {
       imageSize = 120 + 40 * moveController.value;
       cdSize = 100 + 40 * moveController.value;
     } else {
@@ -119,7 +119,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
         AnimatedBuilder(
             animation: cdCotroller,
             builder: (context, snapshot) {
-              if (widget.count == 1) {
+              if (widget.index == 1) {
                 cdAnimation = moveController.status == AnimationStatus.completed
                     ? cdCotroller.value
                     : 1 - moveController.value;
@@ -154,7 +154,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   }
 
   Widget buildTexts(double x, double y) {
-    double textsHeight = widget.count == 1
+    double textsHeight = widget.index == 1
         ? 120 - 30 * (moveController.value)
         : 90 + 30 * moveController.value;
     return Transform.translate(
@@ -172,7 +172,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
             Text(
               song.name,
               style: TextStyle(
-                  color: widget.count == 1 ? Colors.white : Colors.black,
+                  color: widget.index == 1 ? Colors.white : Colors.black,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(

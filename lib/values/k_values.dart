@@ -20,7 +20,7 @@ const double KDefaultLng = -65.4103;
 const List<Color> hotPalette = [KBlue_L1, KWhite];
 const double hotScale = 1;
 const double hotRadius = 88.0;
-const double hotBottomPadding = 75.0;
+const double hotBottomPadding = 25.0;
 
 //Light Switches
 const double lswSidePadding = 10.0;
