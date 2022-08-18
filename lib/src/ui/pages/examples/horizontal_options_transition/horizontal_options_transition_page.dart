@@ -111,24 +111,24 @@ class _HorizontalOptionsTransitionPageState
               itemBuilder: (context, index) {
                 switch (index) {
                   case 0:
+                    return LightSwitchesWidget(_con);
+                  case 1:
                     return Center(
                       child: Text(
                         'Page ${index + 1}',
                         style: TextStyle(
-                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          color: index % 2 == 0 ? KWhite : KBlue_L1,
                           fontSize: 30.0,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                     );
-                  case 1:
-                    return LightSwitchesWidget(_con);
                   case 2:
                     return Center(
                       child: Text(
                         'Page ${index + 1}',
                         style: TextStyle(
-                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          color: index % 2 == 0 ? KWhite : KBlue_L1,
                           fontSize: 30.0,
                           fontWeight: FontWeight.w900,
                         ),
@@ -139,7 +139,7 @@ class _HorizontalOptionsTransitionPageState
                       child: Text(
                         'Page ${index + 1}',
                         style: TextStyle(
-                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          color: index % 2 == 0 ? KWhite : KBlue_L1,
                           fontSize: 30.0,
                           fontWeight: FontWeight.w900,
                         ),
@@ -150,7 +150,7 @@ class _HorizontalOptionsTransitionPageState
                       child: Text(
                         'Page ${index + 1}',
                         style: TextStyle(
-                          color: index % 2 == 0 ? KBlue_L1 : KWhite,
+                          color: index % 2 == 0 ? KWhite : KBlue_L1,
                           fontSize: 30.0,
                           fontWeight: FontWeight.w900,
                         ),

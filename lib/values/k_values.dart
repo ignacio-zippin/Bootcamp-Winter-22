@@ -17,7 +17,7 @@ const double KDefaultLat = -24.7892;
 const double KDefaultLng = -65.4103;
 
 //Horizontal Options Transition
-const List<Color> hotPalette = [KWhite, KBlue_L1];
+const List<Color> hotPalette = [KBlue_L1, KWhite];
 const double hotScale = 1;
 const double hotRadius = 88.0;
 const double hotBottomPadding = 75.0;
