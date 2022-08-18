@@ -24,14 +24,14 @@ class _SongListWidgetState extends State<SongListWidget> {
   Widget buildToolBar() {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+        padding: const EdgeInsets.only(left: 8, bottom: 8, top: 15),
         child: Row(
           children: <Widget>[
             const SizedBox(
               width: 10,
             ),
             const Text(
-              'Albums',
+              'Canciones',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const Spacer(),
@@ -63,7 +63,7 @@ class _SongListWidgetState extends State<SongListWidget> {
   Widget buildGrid() {
     return Expanded(
         child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GridView.count(
         crossAxisCount: count,
         childAspectRatio: count == 2 ? 150 / 170 : 150 / 75,

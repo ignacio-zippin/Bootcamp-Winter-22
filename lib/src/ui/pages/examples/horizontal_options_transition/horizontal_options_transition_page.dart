@@ -104,7 +104,8 @@ class _HorizontalOptionsTransitionPageState
             ),
           ),
           SizedBox(
-            height: (MediaQuery.of(context).size.height / 4) * 3,
+            // Alto de pantalla menos el botton y su padding superior e inferior
+            height: MediaQuery.of(context).size.height - 138,
             child: PageView.builder(
               physics: const NeverScrollableScrollPhysics(),
               controller: _con.pageController,
