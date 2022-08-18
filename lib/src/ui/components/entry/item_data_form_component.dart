@@ -71,6 +71,10 @@ class ItemDataFormComponent extends StatefulWidget {
   //SIGNATURE
   late Color colorSignature;
 
+  Color dropdownHintColor = Colors.black;
+  double dropdownHintSize = 10;
+  Color dropdownArrowColor = Colors.black;
+
   ItemDataFormComponent.text({
     Key? key,
     this.isValid = true,
@@ -159,6 +163,9 @@ class ItemDataFormComponent extends StatefulWidget {
     this.innerPadding,
     this.dropdownItemMaxLines,
     this.dropdownValueMaxLines,
+    this.dropdownArrowColor = Colors.black,
+    this.dropdownHintColor = Colors.black,
+    this.dropdownHintSize = 10,
   }) : super(key: key) {
     type = ItemDataFormType.dropDown;
   }
@@ -437,55 +444,63 @@ class _ItemDataFormComponentState extends State<ItemDataFormComponent> {
         type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
-            color: widget.backgroundColor,
+            color: Colors.transparent,
             boxShadow: widget.boxShadow,
             borderRadius: widget.borderRadius,
           ),
           padding: widget.innerPadding,
-          child: DropdownButton(
-            hint: Text(
-                widget.selectedItem != null
-                    ? widget.selectedItem.toString()
-                    : widget.placeholder ?? "",
-                maxLines: widget.dropdownValueMaxLines,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: KGrey,
+          child: Column(
+            children: [
+              DropdownButton(
+                hint: Text(
+                    widget.selectedItem != null
+                        ? widget.selectedItem.toString()
+                        : widget.placeholder ?? "",
+                    maxLines: widget.dropdownValueMaxLines,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: widget.dropdownHintColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: widget.dropdownHintSize,
+                    )),
+                isExpanded: true,
+                isDense: widget.isDense,
+                style: TextStyle(
+                  color: widget.dropdownHintColor,
                   fontWeight: FontWeight.normal,
-                  fontSize: KFontSizeMedium35,
-                )),
-            isExpanded: true,
-            isDense: widget.isDense,
-            style: const TextStyle(
-              color: KGrey,
-              fontWeight: FontWeight.normal,
-              fontSize: KFontSizeMedium35,
-            ),
-            underline: const SizedBox.shrink(),
-            icon: const Icon(Icons.keyboard_arrow_down,
-                size: 35, color: KPrimary_L1),
-            items: widget.items.map((dynamic value) {
-              return new DropdownMenuItem<String>(
-                value: value,
-                child: new Text(
-                  value,
-                  maxLines: widget.dropdownItemMaxLines,
-                  overflow: TextOverflow.ellipsis,
-                  key: Key(value.toString()),
-                  style: const TextStyle(
-                    color: KGrey,
-                    fontWeight: FontWeight.normal,
-                    fontSize: KFontSizeMedium35,
-                  ),
+                  fontSize: widget.dropdownHintSize,
                 ),
-              );
-            }).toList(),
-            onChanged: (newValue) {
-              setState(() {
-                widget.selectedItem = newValue;
-                widget.onChange(newValue);
-              });
-            },
+                underline: SizedBox.shrink(),
+                icon: Icon(Icons.keyboard_arrow_down,
+                    size: 35, color: widget.dropdownArrowColor),
+                items: widget.items.map((dynamic value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(
+                      value,
+                      maxLines: widget.dropdownItemMaxLines,
+                      overflow: TextOverflow.ellipsis,
+                      key: Key(value.toString()),
+                      style: const TextStyle(
+                        color: KGrey,
+                        fontWeight: FontWeight.normal,
+                        fontSize: KFontSizeMedium35,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    widget.selectedItem = newValue;
+                    widget.onChange(newValue);
+                  });
+                },
+              ),
+              Divider(
+                color: widget.dropdownArrowColor,
+                thickness: 1.1,
+              ),
+            ],
           ),
         ));
   }
