@@ -12,7 +12,7 @@ class SongListWidget extends StatefulWidget {
 
 class _SongListWidgetState extends State<SongListWidget> {
   int count = 2;
-  bool delayAimation = false;
+  bool delayAnimation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +38,13 @@ class _SongListWidgetState extends State<SongListWidget> {
             InkWell(
                 onTap: () async {
                   setState(() {
-                    delayAimation = count == 1 ? true : false;
+                    delayAnimation = count == 1 ? true : false;
                   });
                   if (count == 1) {
                     await Future.delayed(const Duration(milliseconds: 400));
                   }
                   setState(() {
-                    delayAimation = false;
+                    delayAnimation = false;
                     count == 1 ? count = 2 : count = 1;
                   });
                 },
@@ -69,7 +69,7 @@ class _SongListWidgetState extends State<SongListWidget> {
         childAspectRatio: count == 2 ? 150 / 170 : 150 / 75,
         children: widget.controller
             .getSongs()
-            .map((e) => SongItem(e, count, delayAimation))
+            .map((e) => SongItem(e, count, delayAnimation))
             .toList(),
       ),
     );

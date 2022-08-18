@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/providers/horizontal_options_transition_provider.dart';
@@ -30,6 +32,16 @@ class _HorizontalOptionsTransitionPageState
     _con = HorizontalOptionsTransitionPageController.con;
   }
 
+  late final AnimationController _rotationController = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  );
+
+  late final AnimationController _translationController = AnimationController(
+    duration: const Duration(seconds: 3),
+    vsync: this,
+  );
+
   @override
   void initState() {
     _con.initPage(
@@ -37,12 +49,26 @@ class _HorizontalOptionsTransitionPageState
       context: context,
       page: this,
     );
+    bool isForward = true;
+    _translationController.addStatusListener((status) {
+      if (status == AnimationStatus.reverse && isForward) {
+        print("reverse");
+        _rotationController.reverse();
+        isForward = false;
+      }
+      if (status == AnimationStatus.forward && !isForward) {
+        print("forward");
+        _rotationController.repeat();
+        isForward = true;
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
     _con.animationController!.dispose();
+    _rotationController.dispose();
     super.dispose();
   }
 
@@ -117,16 +143,51 @@ class _HorizontalOptionsTransitionPageState
                   case 1:
                     return SongListWidget(_con);
                   case 2:
-                    return Center(
-                      child: Text(
-                        'Page ${index + 1}',
-                        style: TextStyle(
-                          color: index % 2 == 0 ? KWhite : KBlue_L1,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            AnimatedBuilder(
+                              animation: _translationController,
+                              builder: (BuildContext context, Widget? child) {
+                                return Transform.translate(
+                                  offset: Offset(
+                                      _translationController.value *
+                                          (MediaQuery.of(context).size.width -
+                                              100),
+                                      0),
+                                  child: child,
+                                );
+                              },
+                              child: AnimatedBuilder(
+                                animation: _rotationController,
+                                child: Image.asset(
+                                  "images/horizontal_options_transition/song_list/cd.png",
+                                  height: 100,
+                                ),
+                                builder: (BuildContext context, Widget? child) {
+                                  return Transform.rotate(
+                                    angle: _rotationController.value * 2.0 * pi,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                        ElevatedButton(
+                          child: const Text("Play"),
+                          onPressed: () {
+                            _translationController.forward();
+                            _rotationController.repeat();
+                          },
+                          style: TextButton.styleFrom(
+                              primary: KBlue_L1, backgroundColor: KWhite),
+                        ),
+                      ],
                     );
+
                   case 3:
                     return Center(
                       child: Text(

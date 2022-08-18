@@ -21,7 +21,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   GlobalKey containerKey = GlobalKey();
   Postion? fromPostion;
   late AnimationController moveController;
-  late AnimationController cdCotroller;
+  late AnimationController cdController;
 
   @override
   void initState() {
@@ -32,12 +32,12 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
       if (status == AnimationStatus.completed) {
         fromPostion = getPositionFromKey(containerKey);
         if (widget.index == 1) {
-          cdCotroller.forward();
+          cdController.forward();
         }
       }
     });
 
-    cdCotroller = AnimationController(
+    cdController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
 
     super.initState();
@@ -46,7 +46,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   @override
   void dispose() {
     moveController.dispose();
-    cdCotroller.dispose();
+    cdController.dispose();
     super.dispose();
   }
 
@@ -55,7 +55,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     if (!widget.delayAimation) {
       moveController.forward(from: 0);
     } else {
-      cdCotroller.reverse();
+      cdController.reverse();
     }
 
     return Container(
@@ -117,11 +117,11 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
           ),
         ),
         AnimatedBuilder(
-            animation: cdCotroller,
+            animation: cdController,
             builder: (context, snapshot) {
               if (widget.index == 1) {
                 cdAnimation = moveController.status == AnimationStatus.completed
-                    ? cdCotroller.value
+                    ? cdController.value
                     : 1 - moveController.value;
               }
               return Positioned(
