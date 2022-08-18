@@ -62,16 +62,16 @@ class _SongListWidgetState extends State<SongListWidget> {
 
   Widget buildGrid() {
     return Expanded(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GridView.count(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         crossAxisCount: count,
+        physics: const ClampingScrollPhysics(),
         childAspectRatio: count == 2 ? 150 / 170 : 150 / 75,
         children: widget.controller
             .getSongs()
             .map((e) => SongItem(e, count, delayAimation))
             .toList(),
       ),
-    ));
+    );
   }
 }
