@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/interfaces/i_view_controller.dart';
 import 'package:playground_app/src/managers/page_manager/page_manager.dart';
+import 'package:playground_app/src/models/horizontal_options_transition/song_model.dart';
 import 'package:playground_app/src/providers/horizontal_options_transition_provider.dart';
 import 'package:playground_app/utils/page_args.dart';
 import 'package:provider/provider.dart';
@@ -97,5 +98,23 @@ class HorizontalOptionsTransitionPageController extends ControllerMVC
 
   onBack() {
     PageManager().goBack();
+  }
+
+  List<SongModel> getSongs() {
+    List<SongModel> songs = [];
+    songs.add(SongModel(0, 'Mi Propio Repo', 'por Eddie Macaroff',
+        'images/horizontal_options_transition/song_list/mi_propio_repo.png'));
+    songs.add(SongModel(1, 'La Mano de Dios', 'por Rodrigo Bueno',
+        'images/horizontal_options_transition/song_list/la_mano_de_dios.png'));
+    songs.add(SongModel(2, 'De Música Ligera', 'por Soda Stereo',
+        'images/horizontal_options_transition/song_list/de_musica_ligera.png'));
+    songs.add(SongModel(3, 'Fix You', 'por Coldplay',
+        'images/horizontal_options_transition/song_list/fix_you.png'));
+    songs.add(SongModel(4, 'Time', 'por Pink Floyd',
+        'images/horizontal_options_transition/song_list/time.png'));
+    songs.add(SongModel(5, 'Feel Good Inc.', 'por Gorillaz',
+        'images/horizontal_options_transition/song_list/feel_good_inc.png'));
+
+    return songs;
   }
 }

@@ -77,6 +77,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
+    - images/horizontal_options_transition/
+    - images/horizontal_options_transition/song_list/
     - lib/settings/app_settings.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

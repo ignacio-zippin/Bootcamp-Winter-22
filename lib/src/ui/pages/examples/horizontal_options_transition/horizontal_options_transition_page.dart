@@ -4,6 +4,7 @@ import 'package:playground_app/src/providers/horizontal_options_transition_provi
 import 'package:playground_app/src/ui/components/examples/horizontal_options_transition/animated_circle_component.dart';
 import 'package:playground_app/src/ui/page_controllers/examples/horizontal_options_transition/horizontal_options_transition_page_controller.dart';
 import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition/page_view_widgets/light_switches_widget.dart';
+import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition/page_view_widgets/song_list_widget.dart';
 import 'package:playground_app/utils/page_args.dart';
 import 'package:playground_app/values/k_colors.dart';
 import 'package:playground_app/values/k_values.dart';
@@ -113,16 +114,7 @@ class _HorizontalOptionsTransitionPageState
                   case 0:
                     return LightSwitchesWidget(_con);
                   case 1:
-                    return Center(
-                      child: Text(
-                        'Page ${index + 1}',
-                        style: TextStyle(
-                          color: index % 2 == 0 ? KWhite : KBlue_L1,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    );
+                    return SongListWidget(_con);
                   case 2:
                     return Center(
                       child: Text(
