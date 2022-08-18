@@ -186,6 +186,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage> {
   Widget _starsMask() {
     return Stack(
       children: [
+        // ------------
         Positioned(
           right: (_maskWidth * 0.84),
           bottom: (_maskWidth * _timerValue),
@@ -227,13 +228,81 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage> {
           ),
         ),
         Positioned(
-          right: (_maskWidth * 0.35),
-          bottom: ((_maskWidth * 0.1) * (_timerValue)),
+          right: (_maskWidth * 0.45),
+          bottom: ((_maskWidth * 0.25) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.2),
+          bottom: ((_maskWidth * 0.7) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity()),
+          ),
+        ),
+
+        // ------------
+        Positioned(
+          right: (_maskWidth * 0.14),
+          bottom: ((_maskWidth * 0.8) * _timerValue),
           child: Icon(
             Icons.star_rate,
             color: _color.withOpacity(_getOpacity2()),
           ),
         ),
+        Positioned(
+          right: (_maskWidth * 0.32),
+          bottom: ((_maskWidth * 0.4) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.3),
+          bottom: ((_maskWidth * 1) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.83),
+          bottom: ((_maskWidth * 1.1) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.6),
+          bottom: ((_maskWidth * 0.2) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.7),
+          bottom: ((_maskWidth * 0.3) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+        Positioned(
+          right: (_maskWidth * 0.82),
+          bottom: ((_maskWidth * 0.7) * (_timerValue)),
+          child: Icon(
+            Icons.star_rate,
+            color: _color.withOpacity(_getOpacity2()),
+          ),
+        ),
+
+        // ------------
       ],
     );
   }
@@ -255,16 +324,17 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage> {
   }
 
   double _getOpacity2() {
-    if (_timerValue < 0.5) {
+    if ((_timerValue + 0.5) < 0.5) {
       return 0;
-    } else if (_timerValue >= 0.5 && (_timerValue + 0.5) <= 1.5) {
-      if (_timerValue < 1) {
-        return _timerValue - 0.5;
-      } else {
-        return 1 - (_timerValue + 0.5);
-      }
+      // return _timerValue - 0.5;
+    } else if ((_timerValue + 0.5) >= 0.5 && (_timerValue + 0.5) <= 1.25) {
+      return _timerValue;
+    } else if ((_timerValue + 0.5) > 1.25 && (_timerValue + 0.5) < 1.5) {
+      return 1 - _timerValue;
+    } else if (_timerValue >= 0 && _timerValue < 0.5) {
+      return 1 - (_timerValue + 0.5);
     } else {
-      return 0.5;
+      return 0;
     }
   }
 
