@@ -67,13 +67,16 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   double _text5Opacity = 0;
   double _text6Opacity = 0;
   double _text7Opacity = 0;
+  double _applauseOpacity = 0;
   Color _color = Colors.white;
   Color _secondaryColor = Colors.black;
+  Color _applauseColor = Colors.red;
   bool _starsActivated = false;
   bool start = true;
   bool isDark = false;
   bool _silentium = true;
   bool _formActivated = false;
+  bool _applause = false;
 
   late AnimationController _rotationController;
   late final Animation<double> _rotationAnimation;
@@ -157,6 +160,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                     _optionBox(child: _imageChild(), onTap: _imageTap),
                     _optionBox(child: _starsChild(), onTap: _starsTap),
                     _optionBox(child: _formChild(), onTap: _formTap),
+                    _optionBox(child: _applauseChild(), onTap: _applauseTap),
                   ],
                 ),
               ),
@@ -214,9 +218,11 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                       blurRadius: 10)
                 ])
               : null,
-          color: _formActivated
-              ? _color.withOpacity(_opacity)
-              : _secondaryColor.withOpacity(_opacity),
+          color: _applause
+              ? Colors.transparent
+              : _formActivated
+                  ? _color.withOpacity(_opacity)
+                  : _secondaryColor.withOpacity(_opacity),
           border: Border.all(
             color: _formActivated ? _secondaryColor : Colors.transparent,
             width: 1,
@@ -232,7 +238,19 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   }
 
   Widget _getContainerChild() {
-    if (!_formActivated) {
+    if (_applause) {
+      return AnimatedOpacity(
+        duration: Duration(seconds: 1),
+        opacity: _applauseOpacity,
+        child: Container(
+          width: _width,
+          height: _height,
+          decoration: BoxDecoration(
+            color: Colors.red,
+          ),
+        ),
+      );
+    } else if (!_formActivated) {
       return AnimatedOpacity(
         duration: _duration,
         opacity: _silentiumOpacity,
@@ -689,6 +707,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   void _increaseTap() {
     _formActivated = false;
+    _applause = false;
     if (_width + 50 < _maxWidth) {
       setState(() {
         _width += 50;
@@ -711,6 +730,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   void _decreaseTap() {
     _formActivated = false;
+    _applause = false;
     if (_width - 50 > 0) {
       setState(() {
         _width -= 50;
@@ -733,6 +753,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   void _circleTap() {
     _formActivated = false;
+    _applause = false;
     if (_borderRadius > 0) {
       setState(() {
         _opacity = 1;
@@ -842,6 +863,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   void _formTap() async {
     _starsActivated = false;
+    _applause = false;
     if (_formActivated) {
       return;
     }
@@ -909,6 +931,33 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       _text5Opacity = 0;
       _text6Opacity = 0;
       _text7Opacity = 0;
+    });
+  }
+
+  Widget _applauseChild() {
+    return Icon(
+      Icons.waving_hand_sharp,
+      color: _secondaryColor,
+      size: _iconSize,
+    );
+  }
+
+  void _applauseTap() async {
+    _applauseOpacity = 0;
+    _toggleOffTexts();
+    _formActivated = false;
+    setState(() {
+      _applause = true;
+      _width = _maxWidth - 50;
+      _height = _maxWidth / 2.5;
+      _borderRadius = 0;
+      _silentiumOpacity = 0;
+      _starsActivated = false;
+    });
+    await Future.delayed(_duration).then((value) {
+      setState(() {
+        _applauseOpacity = 1;
+      });
     });
   }
 }
