@@ -28,7 +28,7 @@ class ProductProvider with ChangeNotifier {
   final products = [
     Product(
       name: 'Torta de Chocolate',
-      image: 'images/product_image/choclate_cake.png',
+      image: 'images/product_image/choclate_cake.jpg',
       description:
           'La torta de chocolate es una torta con sabor a chocolate derretido, cacao o ambos.',
       price: '\$2000',
@@ -74,7 +74,9 @@ class ProductProvider with ChangeNotifier {
   void dispose() {
     scrollController.dispose();
     tabController.dispose();
-    super.dispose();
+    listProductCategory = [];
+    tabs = [];
+    // super.dispose();
   }
 
   init(TickerProvider ticker) {
@@ -91,22 +93,22 @@ class ProductProvider with ChangeNotifier {
     listProductCategory = [
       ProductCategory(
         id: 1,
-        category: 'Order Again',
+        category: 'Pizzas',
         products: products,
       ),
       ProductCategory(
         id: 2,
-        category: 'Picked For You',
+        category: 'Sandwich',
         products: productsTwo,
       ),
       ProductCategory(
         id: 3,
-        category: 'Startes',
+        category: 'Entrada',
         products: productsThree,
       ),
       ProductCategory(
         id: 4,
-        category: 'Gimpub Sushi',
+        category: 'Postre',
         products: productsFour,
       ),
     ];

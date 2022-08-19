@@ -35,6 +35,7 @@ class _SliverPageState extends StateMVC<SliverPage>
   @override
   void dispose() {
     _con.dispose();
+    _productProvider.dispose();
     super.dispose();
   }
 
@@ -70,30 +71,34 @@ class _SliverPageState extends StateMVC<SliverPage>
   }
 
   Widget bodyContent() {
-    return CustomScrollView(
-      //physics: const BouncingScrollPhysics(),
-      controller: _productProvider.scrollController,
-      slivers: <Widget>[
-        _sliverAppBar(),
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: TabHeader(provider: _productProvider),
-        ),
-        
-        for (var i = 0;
-            i < _productProvider.listProductCategory.length;
-            i++) ...[
-          SliverPersistentHeader(
-            delegate: MyHeaderTitle(
-              _productProvider.listProductCategory[i].category,
+    return NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (overscroll) {
+          overscroll.disallowIndicator();
+          return true;
+        },
+        child: CustomScrollView(
+          controller: _productProvider.scrollController,
+          slivers: <Widget>[
+            _sliverAppBar(),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: TabHeader(provider: _productProvider),
             ),
-          ),
-          SliverBodyItems(
-            listItem: _productProvider.listProductCategory[i].products,
-          )
-        ],
-      ],
-    );
+            for (var i = 0;
+                i < _productProvider.listProductCategory.length;
+                i++) ...[
+              SliverPersistentHeader(
+                delegate: MyHeaderTitle(
+                  _productProvider.listProductCategory[i].category,
+                ),
+              ),
+              SliverBodyItems(
+                listItem: _productProvider.listProductCategory[i].products,
+              )
+            ],
+          ],
+        ));
+    //return
   }
 
   Widget _body() {
@@ -112,7 +117,6 @@ class _SliverPageState extends StateMVC<SliverPage>
           SizedBox(
               height: 80,
               child: TabBar(
-                
                 onTap: _productProvider.onCategorySelected,
                 controller: _productProvider.tabController,
                 indicatorWeight: 0.1,
@@ -234,9 +238,7 @@ class ProductItemComponent extends StatelessWidget {
   }
 }
 
-
 class TabHeader extends SliverPersistentHeaderDelegate {
-
   TabHeader({required this.provider});
 
   final ProductProvider provider;
@@ -253,7 +255,11 @@ class TabHeader extends SliverPersistentHeaderDelegate {
           controller: provider.tabController,
           indicatorWeight: 0.1,
           isScrollable: true,
-          tabs: context.watch<ProductProvider>().tabs.map((e) => TabComponent(tabCategory: e)).toList(),
+          tabs: context
+              .watch<ProductProvider>()
+              .tabs
+              .map((e) => TabComponent(tabCategory: e))
+              .toList(),
         ));
   }
 
@@ -354,7 +360,7 @@ class MyHeaderTitle extends SliverPersistentHeaderDelegate {
   );
   final String title;
   final categoryHeight = 55.0;
-  
+
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
