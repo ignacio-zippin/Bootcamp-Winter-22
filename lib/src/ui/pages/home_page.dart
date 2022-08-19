@@ -77,9 +77,9 @@ class _HomePageState extends StateMVC<HomePage> {
                 ),
                 _sizedBox15(),
                 RoundedButton(
-                  text: "Header Fijo",
+                  text: "Sliver",
                   onPressed: () {
-                    _con.onPressStickyHeader();
+                    _con.onPressSliverButton();
                   },
                   width: double.infinity,
                 ),

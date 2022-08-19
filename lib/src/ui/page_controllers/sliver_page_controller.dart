@@ -4,32 +4,30 @@ import 'package:playground_app/src/interfaces/i_view_controller.dart';
 import 'package:playground_app/src/managers/page_manager/page_manager.dart';
 import 'package:playground_app/utils/page_args.dart';
 
-class HomePageController extends ControllerMVC implements IViewController {
-  static late HomePageController _this;
+class SliverPageController extends ControllerMVC implements IViewController {
+  static late SliverPageController _this;
 
-  factory HomePageController() {
-    _this = HomePageController._();
+  factory SliverPageController() {
+    _this = SliverPageController._();
     return _this;
   }
 
-  static HomePageController get con => _this;
+  static SliverPageController get con => _this;
   final formKey = GlobalKey<FormState>();
 
   PageArgs? args;
 
-  HomePageController._();
+  SliverPageController._();
+
 
   @override
-  void initPage({PageArgs? arguments}) {}
+  void initPage({PageArgs? arguments}) {
+  }
 
   @override
   disposePage() {}
 
-  onPressExample1() {
-    PageManager().goExample1Page();
-  }
-
-  onPressSliverButton(){
-    PageManager().goSliverPage();
+  onPressBack() {
+    PageManager().goBack();
   }
 }

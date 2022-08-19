@@ -16,53 +16,57 @@ class ProductProvider with ChangeNotifier {
   late TabController tabController;
   late ScrollController scrollController;
 
-  bool _listen = true;
+  late bool _listen;
 
-  final productHeight = 110.0;
+  final collapsedHeight = 60.0;
+  final tabHeight = 80.0;
+  final heightTabCollapsed = 140.0;
+
+  final productHeight = 180.0;
   final categoryHeight = 55.0;
 
   final products = [
     Product(
-      name: 'Choclate Cake',
+      name: 'Torta de Chocolate',
       image: 'images/product_image/choclate_cake.png',
       description:
-          'Chocolate cake of chocolate gateau is a cake flavored with meited chocolate, cocoa powder, or both.',
-      price: '\$19',
+          'La torta de chocolate es una torta con sabor a chocolate derretido, cacao o ambos.',
+      price: '\$2000',
     ),
     Product(
       name: 'Pizza',
       image: 'images/product_image/pizza.jpg',
       description:
-          'Pizza is a savory dish of Italian origin consisting of a usually round, flattened base of leavened wheat-based dough to bake.',
-      price: '\$39',
+          'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
+      price: '\$1800',
     ),
     Product(
       name: 'Cookies',
       image: 'images/product_image/cookies.jpg',
       description:
-          'A biscuit is a flour-based baked food product. Out side North America the biscuit is typically hard, flat, and much sabors.',
-      price: '\$10',
+          'Una galleta es un producto alimenticio horneado a base de harina, suele ser dura, plana y con mucho sabor.',
+      price: '\$500',
     ),
     Product(
       name: 'Sandwich',
       image: 'images/product_image/sandiwch.png',
       description:
-          'Trim bread from all sides and apply butter on one breast, then apply the green chutney all over.',
-      price: '\$9',
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      price: '\$500',
     ),
     Product(
       name: 'French Fries',
-      image: 'images/product_image/french_fries.jpg',
+      image: 'images/product_image/french_fries.jpeg',
       description:
-          'French fries, or simply fries, chips, finger chips, or french-fried potatoes, are potatoes cut up and put in a pot with oil.',
-      price: '\$15',
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      price: '\$400',
     ),
     Product(
       name: 'Ceviche',
-      image: 'images/product_image/ceviche.jpeg',
+      image: 'images/product_image/ceviche.jpg',
       description:
-          'The basic ingredients are white fish (although it can be made with shellfish or a mixture of both), lime, red onion, cilantro, and salt. In Central America it is common to accompany it with soda crackers or lettuce.',
-      price: '\$20',
+          'Los ingredientes básicos son el pescado blanco (aunque se puede hacer con mariscos o una mezcla de ambos), lima, cebolla morada, cilantro y sal.',
+      price: '\$1500',
     ),
   ];
 
@@ -106,7 +110,7 @@ class ProductProvider with ChangeNotifier {
         products: productsFour,
       ),
     ];
-
+    _listen = true;
     double offsetFrom = 0;
     double offsetTo = 0;
     for (int i = 0; i < listProductCategory.length; i++) {
@@ -128,8 +132,8 @@ class ProductProvider with ChangeNotifier {
       tabs.add(TabCategory(
         productCategory: category,
         selected: (i == 0),
-        offsetFrom: categoryHeight * i + offsetFrom,
-        offsetTo: offsetTo,
+        offsetFrom: heightTabCollapsed + categoryHeight * i + offsetFrom,
+        offsetTo: heightTabCollapsed + offsetTo,
       ));
 
       items.add(Item(productCategory: category));

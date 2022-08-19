@@ -4,7 +4,7 @@ import 'package:playground_app/src/managers/data_manager/data_manager.dart';
 import 'package:playground_app/src/providers/app_provider.dart';
 import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition_page.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
-import 'package:playground_app/src/ui/pages/sticky_header_page.dart';
+import 'package:playground_app/src/ui/pages/sliver_page.dart';
 import 'package:playground_app/src/ui/popups/information_alert_popup.dart';
 import 'package:playground_app/utils/page_args.dart';
 import 'package:playground_app/values/k_colors.dart';
@@ -52,9 +52,9 @@ class PageManager with PageManagerPopUp {
       case PageNames.example1:
         return MaterialPageRoute(
             builder: (context) => HorizontalOptionsTransitionPage(arguments));
-      case PageNames.stickyHeader:
+      case PageNames.sliverPage:
         return MaterialPageRoute(
-            builder: (context) => StickyHeaderPage(arguments));
+            builder: (context) => SliverPage(arguments));
 
       default:
     }
@@ -114,7 +114,7 @@ class PageManager with PageManagerPopUp {
     _goPage(PageNames.example1.toString(), actionBack: actionBack);
   }
 
-  goStickyHeaderPage({PageArgs? args, Function(PageArgs? args)? actionBack}) {
-    _goPage(PageNames.stickyHeader.toString(), actionBack: actionBack);
+  goSliverPage({PageArgs? args, Function(PageArgs? args)? actionBack}) {
+    _goPage(PageNames.sliverPage.toString(), actionBack: actionBack);
   }
 }
