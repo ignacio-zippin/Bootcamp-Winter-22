@@ -176,6 +176,7 @@ class _LightSwitchesWidgetState extends State<LightSwitchesWidget> {
               Icon(
                 homeData.icon,
                 color: KBlue_T2,
+                size: 35,
               ),
               Text(
                 model.switchValues[index]
@@ -183,7 +184,7 @@ class _LightSwitchesWidgetState extends State<LightSwitchesWidget> {
                     : 'Off',
                 style: const TextStyle(
                   color: KBlue_T2,
-                  fontSize: 14.0,
+                  fontSize: 18.0,
                   fontFamily: 'Sf',
                   fontWeight: FontWeight.bold,
                 ),
@@ -192,7 +193,7 @@ class _LightSwitchesWidgetState extends State<LightSwitchesWidget> {
           ),
         ),
         const SizedBox(
-          width: 20.0,
+          width: 5.0,
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -202,14 +203,8 @@ class _LightSwitchesWidgetState extends State<LightSwitchesWidget> {
               homeData.location,
               style: TextStyle(
                 color: color,
-                fontSize: 16.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.w900,
-              ),
-            ),
-            Text(
-              homeData.power,
-              style: TextStyle(
-                color: color,
               ),
             ),
           ],

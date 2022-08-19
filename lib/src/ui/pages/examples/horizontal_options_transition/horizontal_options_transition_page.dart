@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/providers/horizontal_options_transition_provider.dart';
@@ -114,36 +112,14 @@ class _HorizontalOptionsTransitionPageState
               itemCount: 4,
               itemBuilder: (context, index) {
                 switch (index) {
-                  case 0:
-                    return LightSwitchesWidget(_con);
-                  case 1:
-                    return SongListWidget(_con);
                   case 2:
-                    return Center(
-                      child: Text(
-                        'Page ${index + 1}',
-                        style: TextStyle(
-                          color: index % 2 == 0 ? KWhite : KBlue_L1,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    );
+                    return LightSwitchesWidget(_con);
                   case 3:
-                    return Center(
-                      child: Text(
-                        'Page ${index + 1}',
-                        style: TextStyle(
-                          color: index % 2 == 0 ? KWhite : KBlue_L1,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    );
+                    return SongListWidget(_con);
                   default:
                     return Center(
                       child: Text(
-                        'Page ${index + 1}',
+                        'Página ${index + 1}',
                         style: TextStyle(
                           color: index % 2 == 0 ? KWhite : KBlue_L1,
                           fontSize: 30.0,

@@ -32,21 +32,9 @@ class HorizontalOptionsTransitionPageController extends ControllerMVC
 
   //Light Switches
   final List<Map> homeItems = [
-    {
-      'location': 'Oficina 17 5to Piso',
-      'power': '15.7 Mwh',
-      'icon': Icons.lightbulb_outline
-    },
-    {
-      'location': 'Oficina 15 5to Piso',
-      'power': '2.3 Mwh',
-      'icon': Icons.lightbulb_outline
-    },
-    {
-      'location': 'Oficina 6 1er Piso',
-      'power': '8.4 Mwh',
-      'icon': Icons.lightbulb_outline
-    },
+    {'location': 'Oficina 17 5to Piso', 'icon': Icons.lightbulb_outline},
+    {'location': 'Oficina 16 5to Piso', 'icon': Icons.lightbulb_outline},
+    {'location': 'Oficina 6 1er Piso', 'icon': Icons.lightbulb_outline},
   ];
 
   @override

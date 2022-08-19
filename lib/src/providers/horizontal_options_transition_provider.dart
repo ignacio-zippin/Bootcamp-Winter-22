@@ -90,4 +90,12 @@ class HorizontalOptionsTransitionProvider extends ChangeNotifier {
     _switchValues[index] = value;
     notifyListeners();
   }
+
+  //Song List
+  bool _isPlaying = false;
+  get isPlaying => _isPlaying;
+  set isPlaying(value) {
+    _isPlaying = value;
+    notifyListeners();
+  }
 }

@@ -7,10 +7,10 @@ import 'package:playground_app/src/models/horizontal_options_transition/song_mod
 // ignore: must_be_immutable
 class SongItem extends StatefulWidget {
   SongModel song;
-  int index;
+  int count;
   bool delayAimation;
 
-  SongItem(this.song, this.index, this.delayAimation, {Key? key})
+  SongItem(this.song, this.count, this.delayAimation, {Key? key})
       : super(key: key);
 
   @override
@@ -25,6 +25,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   late AnimationController cdController;
   late AnimationController playingRotationController;
   late AnimationController playingTranslationController;
+  bool showPlayingIcons = false;
   bool isPlaying = false;
 
   @override
@@ -35,7 +36,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     moveController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         fromPostion = getPositionFromKey(containerKey);
-        if (widget.index == 1) {
+        if (widget.count == 1) {
           cdController.forward();
         }
       }
@@ -45,7 +46,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
         vsync: this, duration: const Duration(milliseconds: 400));
 
     playingRotationController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
@@ -115,7 +116,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     double cdSize = 100;
     double cdAnimation = 0;
 
-    if (widget.index == 1) {
+    if (widget.count == 1) {
       imageSize = 120 + 40 * moveController.value;
       cdSize = 100 + 40 * moveController.value;
     } else {
@@ -123,93 +124,120 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
       cdSize = 100 + 40 * (1 - moveController.value);
       cdAnimation = moveController.value;
     }
-    return GestureDetector(
-      onTap: () {
-        if (!isPlaying) {
-          playingTranslationController.forward();
-          playingRotationController.repeat();
-          isPlaying = true;
-        } else {
-          playingRotationController.reverse();
-          playingTranslationController
-              .reverse()
-              .whenComplete(() => playingRotationController.stop());
-          isPlaying = false;
-        }
-      },
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Positioned(
-            top: 5,
-            child: Image.asset(
-              song.image,
-              height: imageSize,
-              width: imageSize,
-            ),
-          ),
-          AnimatedBuilder(
-              animation: cdController,
-              builder: (context, snapshot) {
-                if (widget.index == 1) {
-                  cdAnimation =
-                      moveController.status == AnimationStatus.completed
-                          ? cdController.value
-                          : 1 - moveController.value;
-                }
-                return Positioned(
-                  top: 10,
-                  left: (imageSize - cdSize / 1.7) * cdAnimation,
-                  child: AnimatedBuilder(
-                    animation: playingTranslationController,
-                    builder: (BuildContext context, Widget? child) {
-                      return Transform.translate(
-                        offset: Offset(
-                            playingTranslationController.value *
-                                (MediaQuery.of(context).size.width - 250),
-                            0),
-                        child: child,
-                      );
-                    },
-                    child: AnimatedBuilder(
-                      animation: playingRotationController,
-                      builder: (BuildContext context, Widget? child) {
-                        return Transform.rotate(
-                          angle: playingRotationController.value * 2.0 * pi,
-                          child: child,
-                        );
-                      },
-                      child: Image.asset(
-                        'images/horizontal_options_transition/song_list/cd.png',
-                        width: cdSize,
-                        height: cdSize,
-                      ),
-                    ),
-                  ),
-                );
-              }),
-          ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 20),
-                width: imageSize,
-                height: imageSize + 20,
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            if (!isPlaying) {
+              playingTranslationController.forward();
+              playingRotationController.repeat();
+              setState(() {
+                isPlaying = true;
+              });
+            } else {
+              playingRotationController.reverse();
+              playingTranslationController.reverse().whenComplete(() {
+                playingRotationController.stop();
+              });
+              setState(() {
+                isPlaying = false;
+              });
+            }
+          },
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              Positioned(
+                top: 5,
                 child: Image.asset(
                   song.image,
                   height: imageSize,
                   width: imageSize,
                 ),
               ),
+              AnimatedBuilder(
+                  animation: cdController,
+                  builder: (context, snapshot) {
+                    if (widget.count == 1) {
+                      cdAnimation =
+                          moveController.status == AnimationStatus.completed
+                              ? cdController.value
+                              : 1 - moveController.value;
+                    }
+                    return Positioned(
+                      top: 10,
+                      left: (imageSize - cdSize / 1.7) * cdAnimation,
+                      child: AnimatedBuilder(
+                        animation: playingTranslationController,
+                        builder: (BuildContext context, Widget? child) {
+                          return Transform.translate(
+                            offset: Offset(
+                                playingTranslationController.value *
+                                    (MediaQuery.of(context).size.width - 250),
+                                0),
+                            child: child,
+                          );
+                        },
+                        child: AnimatedBuilder(
+                          animation: playingRotationController,
+                          builder: (BuildContext context, Widget? child) {
+                            return Transform.rotate(
+                              angle: playingRotationController.value * 2.0 * pi,
+                              child: child,
+                            );
+                          },
+                          child: Image.asset(
+                            'images/horizontal_options_transition/song_list/cd.png',
+                            width: cdSize,
+                            height: cdSize,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+              ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    width: imageSize,
+                    height: imageSize + 20,
+                    child: Image.asset(
+                      song.image,
+                      height: imageSize,
+                      width: imageSize,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            Visibility(
+              visible: widget.count == 1 && isPlaying == true,
+              child: const SizedBox(width: 10),
             ),
-          )
-        ],
-      ),
+            Visibility(
+              visible: widget.count == 1 && isPlaying == true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Icon(Icons.volume_up, size: 30),
+                  Icon(Icons.stop, size: 30),
+                  Icon(Icons.volume_down, size: 30),
+                ],
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 
   Widget buildTexts(double x, double y) {
-    double textsHeight = widget.index == 1
+    double textsHeight = widget.count == 1
         ? 120 - 30 * (moveController.value)
         : 90 + 30 * moveController.value;
     return Transform.translate(
@@ -227,7 +255,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
             Text(
               song.name,
               style: TextStyle(
-                  color: widget.index == 1 ? Colors.white : Colors.black,
+                  color: widget.count == 1 ? Colors.white : Colors.black,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(
