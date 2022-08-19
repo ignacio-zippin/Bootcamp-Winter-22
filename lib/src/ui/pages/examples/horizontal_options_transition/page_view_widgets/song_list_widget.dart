@@ -69,7 +69,12 @@ class _SongListWidgetState extends State<SongListWidget> {
         childAspectRatio: count == 2 ? 150 / 170 : 150 / 75,
         children: widget.controller
             .getSongs()
-            .map((e) => SongItem(e, count, delayAnimation))
+            .map(
+              (e) => IgnorePointer(
+                ignoring: count == 2 ? true : false,
+                child: SongItem(e, count, delayAnimation),
+              ),
+            )
             .toList(),
       ),
     );

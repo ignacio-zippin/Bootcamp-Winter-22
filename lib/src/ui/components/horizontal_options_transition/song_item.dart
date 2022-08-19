@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   Postion? fromPostion;
   late AnimationController moveController;
   late AnimationController cdController;
+  late AnimationController playingRotationController;
+  late AnimationController playingTranslationController;
+  bool isPlaying = false;
 
   @override
   void initState() {
@@ -40,6 +44,16 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     cdController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
 
+    playingRotationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    playingTranslationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
     super.initState();
   }
 
@@ -47,6 +61,8 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   void dispose() {
     moveController.dispose();
     cdController.dispose();
+    playingTranslationController.dispose();
+    playingRotationController.dispose();
     super.dispose();
   }
 
@@ -57,7 +73,6 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     } else {
       cdController.reverse();
     }
-
     return Container(
       key: containerKey,
       child: AnimatedBuilder(
@@ -82,10 +97,13 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
             return Stack(
               children: <Widget>[
                 Transform.translate(
-                    offset: Offset(x * (1 - moveController.value),
-                        y * (1 - moveController.value)),
-                    child: buildImage()),
-                buildTexts(x, y)
+                  offset: Offset(
+                    x * (1 - moveController.value),
+                    y * (1 - moveController.value),
+                  ),
+                  child: buildImage(),
+                ),
+                buildTexts(x, y),
               ],
             );
           }),
@@ -105,51 +123,88 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
       cdSize = 100 + 40 * (1 - moveController.value);
       cdAnimation = moveController.value;
     }
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        Positioned(
-          top: 5,
-          child: Image.asset(
-            song.image,
-            height: imageSize,
-            width: imageSize,
-          ),
-        ),
-        AnimatedBuilder(
-            animation: cdController,
-            builder: (context, snapshot) {
-              if (widget.index == 1) {
-                cdAnimation = moveController.status == AnimationStatus.completed
-                    ? cdController.value
-                    : 1 - moveController.value;
-              }
-              return Positioned(
-                top: 10,
-                left: (imageSize - cdSize / 1.7) * cdAnimation,
-                child: Image.asset(
-                  'images/horizontal_options_transition/song_list/cd.png',
-                  width: cdSize,
-                  height: cdSize,
-                ),
-              );
-            }),
-        ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 20),
+    return GestureDetector(
+      onTap: () {
+        if (!isPlaying) {
+          playingTranslationController.forward();
+          playingRotationController.repeat();
+          isPlaying = true;
+        } else {
+          playingRotationController.reverse();
+          playingTranslationController
+              .reverse()
+              .whenComplete(() => playingRotationController.stop());
+          isPlaying = false;
+        }
+      },
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          Positioned(
+            top: 5,
+            child: Image.asset(
+              song.image,
+              height: imageSize,
               width: imageSize,
-              height: imageSize + 20,
-              child: Image.asset(
-                song.image,
-                height: imageSize,
-                width: imageSize,
-              ),
             ),
           ),
-        )
-      ],
+          AnimatedBuilder(
+              animation: cdController,
+              builder: (context, snapshot) {
+                if (widget.index == 1) {
+                  cdAnimation =
+                      moveController.status == AnimationStatus.completed
+                          ? cdController.value
+                          : 1 - moveController.value;
+                }
+                return Positioned(
+                  top: 10,
+                  left: (imageSize - cdSize / 1.7) * cdAnimation,
+                  child: AnimatedBuilder(
+                    animation: playingTranslationController,
+                    builder: (BuildContext context, Widget? child) {
+                      return Transform.translate(
+                        offset: Offset(
+                            playingTranslationController.value *
+                                (MediaQuery.of(context).size.width - 250),
+                            0),
+                        child: child,
+                      );
+                    },
+                    child: AnimatedBuilder(
+                      animation: playingRotationController,
+                      builder: (BuildContext context, Widget? child) {
+                        return Transform.rotate(
+                          angle: playingRotationController.value * 2.0 * pi,
+                          child: child,
+                        );
+                      },
+                      child: Image.asset(
+                        'images/horizontal_options_transition/song_list/cd.png',
+                        width: cdSize,
+                        height: cdSize,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+          ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 20),
+                width: imageSize,
+                height: imageSize + 20,
+                child: Image.asset(
+                  song.image,
+                  height: imageSize,
+                  width: imageSize,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
