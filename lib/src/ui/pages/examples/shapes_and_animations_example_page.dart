@@ -1,15 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/ui/components/entry/item_data_form_component.dart';
 import 'package:playground_app/src/ui/page_controllers/examples/shapes_and_animations_example_page_controller.dart';
 import 'package:playground_app/utils/page_args.dart';
 
-enum _ShapesEnum {
-  circle,
-  square,
+enum _ChildrenType {
+  base,
+  form,
+  applause,
+  flip,
 }
 
 class ShapesAndAnimationsPage extends StatefulWidget {
@@ -68,6 +67,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   double _text6Opacity = 0;
   double _text7Opacity = 0;
   double _applauseOpacity = 0;
+  double _applauseTextOpacity = 0;
   Color _color = Colors.white;
   Color _secondaryColor = Colors.black;
   Color _applauseColor = Colors.red;
@@ -77,6 +77,8 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   bool _silentium = true;
   bool _formActivated = false;
   bool _applause = false;
+  bool _draggable = false;
+  _ChildrenType _currentChildren = _ChildrenType.base;
 
   late AnimationController _rotationController;
   late final Animation<double> _rotationAnimation;
@@ -85,6 +87,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   double _timerValue = 0;
   double _timerValue2 = 0;
+  double _timerValue3 = 0;
 
   void _startTimer() async {
     Future.delayed(const Duration(milliseconds: 1)).then((value) {
@@ -98,6 +101,13 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         });
       }
     });
+    Future.delayed(const Duration(milliseconds: 1)).then((value) {
+      if (_timerValue3 >= 10) {
+        _timerValue3 = 0;
+      } else {
+        _timerValue3 += 0.005;
+      }
+    });
     await Future.delayed(const Duration(seconds: 1));
     Future.delayed(const Duration(milliseconds: 1)).then((value) {
       if (_timerValue2 >= 1) {
@@ -106,6 +116,28 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         _timerValue2 += 0.005;
       }
     });
+  }
+
+  int _counter = 0;
+  Offset _offset = Offset(0.4, 0.7); // new
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  Widget _parentWidget(Widget child) {
+    return Transform(
+      // Transform widget
+      transform: Matrix4.identity()
+        ..setEntry(3, 2, 0.001) // perspective
+        ..setEntry(3, 2, 0.001) // perspective
+        ..rotateX(0.01 * _offset.dy) // changed
+        ..rotateY(-0.01 * _offset.dx),
+      alignment: FractionalOffset.center,
+      child: child,
+    );
   }
 
   @override
@@ -120,51 +152,70 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       _maskWidth = _width * 1.3;
     }
     WidgetsBinding.instance?.addPostFrameCallback((_) => _startTimer());
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        key: _key,
-        body: AnimatedContainer(
-          duration: _duration,
-          color: _color,
-          child: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: _container(),
+    return _parentWidget(
+      GestureDetector(
+        onPanUpdate: _draggable
+            ? (details) => setState(() => _offset += details.delta)
+            : null,
+        onLongPress: () => setState(() => _offset = Offset.zero),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: AnimatedContainer(
+              duration: _duration,
+              decoration: BoxDecoration(
+                color: _color,
+                border: Border.all(
+                  color: _draggable ? Colors.black : Colors.transparent,
+                ),
+              ),
+              margin: _draggable ? EdgeInsets.all(5) : EdgeInsets.all(0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: _container(),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: _mask(),
+                          ),
+                        ],
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: _mask(),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _optionBox(
+                            child: _increaseChild(), onTap: _increaseTap),
+                        _optionBox(
+                            child: _decreaseChild(), onTap: _decreaseTap),
+                        _optionBox(
+                            child: _rotationChild(), onTap: _rotationTap),
+                        _optionBox(child: _circleChild(), onTap: _circleTap),
+                        _optionBox(
+                            child: _darkThemeChildren(), onTap: _darkThemeTap),
+                        _optionBox(child: _hideChild(), onTap: _hideTap),
+                        _optionBox(child: _imageChild(), onTap: _imageTap),
+                        _optionBox(child: _starsChild(), onTap: _starsTap),
+                        _optionBox(child: _formChild(), onTap: _formTap),
+                        _optionBox(
+                            child: _draggableChild(), onTap: _draggableTap),
+                        _optionBox(
+                            child: _applauseChild(), onTap: _applauseTap),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _optionBox(child: _increaseChild(), onTap: _increaseTap),
-                    _optionBox(child: _decreaseChild(), onTap: _decreaseTap),
-                    _optionBox(child: _rotationChild(), onTap: _rotationTap),
-                    _optionBox(child: _circleChild(), onTap: _circleTap),
-                    _optionBox(
-                        child: _darkThemeChildren(), onTap: _darkThemeTap),
-                    _optionBox(child: _hideChild(), onTap: _hideTap),
-                    _optionBox(child: _imageChild(), onTap: _imageTap),
-                    _optionBox(child: _starsChild(), onTap: _starsTap),
-                    _optionBox(child: _formChild(), onTap: _formTap),
-                    _optionBox(child: _applauseChild(), onTap: _applauseTap),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -238,272 +289,345 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   }
 
   Widget _getContainerChild() {
+    switch (_currentChildren) {
+      case _ChildrenType.base:
+        return _baseChild();
+      case _ChildrenType.form:
+        return _formChildContainer();
+      case _ChildrenType.applause:
+        return _applauseChildContainer();
+      case _ChildrenType.flip:
+        return _flipChildContainer();
+    }
+
     if (_applause) {
-      return AnimatedOpacity(
-        duration: Duration(seconds: 1),
-        opacity: _applauseOpacity,
-        child: Container(
-          width: _width,
-          height: _height,
-          decoration: BoxDecoration(
-            color: Colors.red,
-          ),
-        ),
-      );
     } else if (!_formActivated) {
-      return AnimatedOpacity(
+    } else {}
+  }
+
+  Widget _baseChild() {
+    return AnimatedOpacity(
+      duration: _duration,
+      opacity: _silentiumOpacity,
+      child: Image.asset(
+        _imagePath,
+        fit: BoxFit.cover,
+        color: _opacity < 1 ? Colors.transparent : (_silentium ? _color : null),
+      ),
+    );
+  }
+
+  Widget _applauseChildContainer() {
+    return AnimatedOpacity(
+      duration: Duration(seconds: 1),
+      opacity: _applauseOpacity,
+      child: AnimatedContainer(
         duration: _duration,
-        opacity: _silentiumOpacity,
-        child: Image.asset(
-          _imagePath,
-          fit: BoxFit.cover,
-          color:
-              _opacity < 1 ? Colors.transparent : (_silentium ? _color : null),
-        ),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    AnimatedOpacity(
-                      opacity: _text1Opacity,
-                      duration: const Duration(milliseconds: 700),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            hintText: "Nombres...",
-                            hintStyle: TextStyle(color: _secondaryColor),
-                          ),
-                        ),
-                      ),
+        width: _width,
+        height: _height,
+        decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border.all(
+              color: Colors.red.withOpacity(0.5),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.red.withOpacity(_getApplauseShadowOpacity()),
+                blurRadius: 15,
+                spreadRadius: 15,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(40)),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          height: double.infinity,
+          width: double.infinity,
+          alignment: Alignment.center,
+          child: AnimatedOpacity(
+            duration: const Duration(seconds: 1),
+            opacity: _applauseTextOpacity,
+            child: Text(
+              "ESCOPETA",
+              style: TextStyle(
+                color: Colors.red.withOpacity(_getApplauseShadowOpacity()),
+                fontSize: 50,
+                shadows: [
+                  BoxShadow(
+                    color: Colors.red.withOpacity(
+                      _getApplauseShadowOpacity(),
                     ),
-                    AnimatedOpacity(
-                      opacity: _text2Opacity,
-                      duration: const Duration(milliseconds: 700),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            hintText: "Apellidos...",
-                            hintStyle: TextStyle(color: _secondaryColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      opacity: _text3Opacity,
-                      duration: const Duration(milliseconds: 700),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            hintText: "Email...",
-                            hintStyle: TextStyle(color: _secondaryColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      opacity: _text4Opacity,
-                      duration: const Duration(milliseconds: 700),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            hintText: "Telefono...",
-                            hintStyle: TextStyle(color: _secondaryColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      opacity: _text5Opacity,
-                      duration: const Duration(milliseconds: 700),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                              borderSide: BorderSide(
-                                color: _secondaryColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                            hintText: "Fecha de nacimiento...",
-                            hintStyle: TextStyle(color: _secondaryColor),
-                            suffixIcon: Icon(
-                              Icons.date_range,
-                              color: _secondaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      opacity: _text5Opacity,
-                      duration: const Duration(milliseconds: 700),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: ItemDataFormComponent.dropDown(
-                          items: ["Argentina", "Chile", "Paraguay"],
-                          onChange: (item) {},
-                          placeholder: "Pais...",
-                          dropdownArrowColor: _secondaryColor,
-                          dropdownHintColor: _secondaryColor,
-                          dropdownHintSize: 15,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                    spreadRadius: 10,
+                    blurRadius: 10,
+                  )
+                ],
               ),
             ),
-            AnimatedOpacity(
-              duration: Duration(milliseconds: 700),
-              opacity: _text7Opacity,
-              child: Container(
-                color: _secondaryColor,
-                height: 50,
-                child: Center(
-                  child: Text(
-                    "Aceptar",
-                    style: TextStyle(
-                      color: _color,
-                      fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _formChildContainer() {
+    return Padding(
+      padding: const EdgeInsets.all(25),
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  AnimatedOpacity(
+                    opacity: _text1Opacity,
+                    duration: const Duration(milliseconds: 700),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          border: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          hintText: "Nombres...",
+                          hintStyle: TextStyle(color: _secondaryColor),
+                        ),
+                      ),
                     ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: _text2Opacity,
+                    duration: const Duration(milliseconds: 700),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          border: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          hintText: "Apellidos...",
+                          hintStyle: TextStyle(color: _secondaryColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: _text3Opacity,
+                    duration: const Duration(milliseconds: 700),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          border: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          hintText: "Email...",
+                          hintStyle: TextStyle(color: _secondaryColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: _text4Opacity,
+                    duration: const Duration(milliseconds: 700),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          border: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          hintText: "Telefono...",
+                          hintStyle: TextStyle(color: _secondaryColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: _text5Opacity,
+                    duration: const Duration(milliseconds: 700),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          border: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide(
+                              color: _secondaryColor,
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          hintText: "Fecha de nacimiento...",
+                          hintStyle: TextStyle(color: _secondaryColor),
+                          suffixIcon: Icon(
+                            Icons.date_range,
+                            color: _secondaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: _text5Opacity,
+                    duration: const Duration(milliseconds: 700),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: ItemDataFormComponent.dropDown(
+                        items: ["Argentina", "Chile", "Paraguay"],
+                        onChange: (item) {},
+                        placeholder: "Pais...",
+                        dropdownArrowColor: _secondaryColor,
+                        dropdownHintColor: _secondaryColor,
+                        dropdownHintSize: 15,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedOpacity(
+            duration: Duration(milliseconds: 700),
+            opacity: _text7Opacity,
+            child: Container(
+              color: _secondaryColor,
+              height: 50,
+              child: Center(
+                child: Text(
+                  "Aceptar",
+                  style: TextStyle(
+                    color: _color,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _flipChildContainer() {
+    return Container();
+  }
+
+  double _getApplauseShadowOpacity() {
+    if (_timerValue < 0.5) {
+      return _timerValue;
+    } else if (_timerValue < 1) {
+      return 1 - (_timerValue);
+    } else {
+      return 0;
     }
   }
 
@@ -708,12 +832,16 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   void _increaseTap() {
     _formActivated = false;
     _applause = false;
+    setState(() {
+      _currentChildren = _ChildrenType.base;
+      _silentiumOpacity = 1;
+      _height = _width;
+    });
     if (_width + 50 < _maxWidth) {
       setState(() {
         _width += 50;
         _maskWidth = _width * 1.3;
         _height = _width;
-        _silentiumOpacity = 1;
       });
     }
     _toggleOffTexts();
@@ -731,12 +859,16 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   void _decreaseTap() {
     _formActivated = false;
     _applause = false;
+    setState(() {
+      _currentChildren = _ChildrenType.base;
+      _silentiumOpacity = 1;
+      _height = _width;
+    });
     if (_width - 50 > 0) {
       setState(() {
         _width -= 50;
         _maskWidth = _width * 1.3;
         _height = _width;
-        _silentiumOpacity = 1;
       });
     }
     _toggleOffTexts();
@@ -756,6 +888,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     _applause = false;
     if (_borderRadius > 0) {
       setState(() {
+        _currentChildren = _ChildrenType.base;
         _opacity = 1;
         _height = _width;
         _borderRadius = 0;
@@ -763,6 +896,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       });
     } else {
       setState(() {
+        _currentChildren = _ChildrenType.base;
         _opacity = 1;
         _height = _width;
         _borderRadius = _maxWidth;
@@ -862,6 +996,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   }
 
   void _formTap() async {
+    _currentChildren = _ChildrenType.form;
     _starsActivated = false;
     _applause = false;
     if (_formActivated) {
@@ -947,6 +1082,12 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     _toggleOffTexts();
     _formActivated = false;
     setState(() {
+      if (!isDark) {
+        _color = Colors.black;
+        _secondaryColor = const Color.fromARGB(255, 197, 197, 197);
+        isDark = true;
+      }
+      _currentChildren = _ChildrenType.applause;
       _applause = true;
       _width = _maxWidth - 50;
       _height = _maxWidth / 2.5;
@@ -958,6 +1099,28 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       setState(() {
         _applauseOpacity = 1;
       });
+    });
+    await Future.delayed(_duration).then((value) {
+      setState(() {
+        _applauseTextOpacity = 1;
+      });
+    });
+  }
+
+  Widget _draggableChild() {
+    return Icon(
+      Icons.moving,
+      color: _secondaryColor,
+      size: _iconSize,
+    );
+  }
+
+  void _draggableTap() {
+    setState(() {
+      if (_draggable) {
+        _offset = Offset.zero;
+      }
+      _draggable = !_draggable;
     });
   }
 }
