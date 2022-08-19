@@ -41,6 +41,7 @@ class _SliverPageState extends StateMVC<SliverPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: bodyContent(),
     );
   }
@@ -70,7 +71,7 @@ class _SliverPageState extends StateMVC<SliverPage>
 
   Widget bodyContent() {
     return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
+      //physics: const BouncingScrollPhysics(),
       controller: _productProvider.scrollController,
       slivers: <Widget>[
         _sliverAppBar(),
@@ -111,6 +112,7 @@ class _SliverPageState extends StateMVC<SliverPage>
           SizedBox(
               height: 80,
               child: TabBar(
+                
                 onTap: _productProvider.onCategorySelected,
                 controller: _productProvider.tabController,
                 indicatorWeight: 0.1,
@@ -155,9 +157,9 @@ class TabComponent extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(tabCategory.productCategory.category.toString(),
               style: const TextStyle(
-                  color: Colors.blue,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 13)),
+                  fontSize: 14)),
         ),
       ),
     );
@@ -280,9 +282,8 @@ class SliverBodyItems extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           final product = listItem[index];
-          return Container(
+          return SizedBox(
             height: 180,
-            color: Colors.red,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -357,8 +358,7 @@ class MyHeaderTitle extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: Colors.blue,
+    return SizedBox(
       height: categoryHeight,
       child: Padding(
         padding: const EdgeInsets.only(left: 16.0),

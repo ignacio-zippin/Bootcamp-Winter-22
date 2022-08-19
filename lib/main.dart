@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyApp> {
     //_initApp(context);
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: KPrimary));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     _locale = Locale(getCode(DataManager().selectedCulture), '');
     return MaterialApp(
       supportedLocales: const [
