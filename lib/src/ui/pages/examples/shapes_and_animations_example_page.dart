@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/ui/components/entry/item_data_form_component.dart';
@@ -9,6 +11,7 @@ enum _ChildrenType {
   form,
   applause,
   flip,
+  psycho,
 }
 
 class ShapesAndAnimationsPage extends StatefulWidget {
@@ -87,7 +90,9 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   double _timerValue = 0;
   double _timerValue2 = 0;
-  double _timerValue3 = 0;
+  int _timerGreen = 0;
+  int _timerRed = 0;
+  int _timerBlue = 0;
 
   void _startTimer() async {
     Future.delayed(const Duration(milliseconds: 1)).then((value) {
@@ -102,10 +107,26 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       }
     });
     Future.delayed(const Duration(milliseconds: 1)).then((value) {
-      if (_timerValue3 >= 10) {
-        _timerValue3 = 0;
+      if (_timerRed >= 255) {
+        _timerRed = 0;
       } else {
-        _timerValue3 += 0.005;
+        _timerRed += 1;
+      }
+    });
+    await Future.delayed(const Duration(milliseconds: 75));
+    Future.delayed(const Duration(milliseconds: 1)).then((value) {
+      if (_timerBlue >= 255) {
+        _timerBlue = 0;
+      } else {
+        _timerBlue += 1;
+      }
+    });
+    await Future.delayed(const Duration(milliseconds: 75));
+    Future.delayed(const Duration(milliseconds: 1)).then((value) {
+      if (_timerGreen >= 255) {
+        _timerGreen = 0;
+      } else {
+        _timerGreen += 1;
       }
     });
     await Future.delayed(const Duration(seconds: 1));
@@ -208,6 +229,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                         _optionBox(child: _formChild(), onTap: _formTap),
                         _optionBox(
                             child: _draggableChild(), onTap: _draggableTap),
+                        _optionBox(child: _psychoChild(), onTap: _psychoTap),
                         _optionBox(
                             child: _applauseChild(), onTap: _applauseTap),
                       ],
@@ -261,23 +283,9 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         duration: _duration,
         margin: _formActivated ? EdgeInsets.all(25) : EdgeInsets.all(0),
         decoration: BoxDecoration(
-          boxShadow: _formActivated
-              ? ([
-                  BoxShadow(
-                      color: _secondaryColor.withOpacity(0.3),
-                      spreadRadius: 5,
-                      blurRadius: 10)
-                ])
-              : null,
-          color: _applause
-              ? Colors.transparent
-              : _formActivated
-                  ? _color.withOpacity(_opacity)
-                  : _secondaryColor.withOpacity(_opacity),
-          border: Border.all(
-            color: _formActivated ? _secondaryColor : Colors.transparent,
-            width: 1,
-          ),
+          boxShadow: _getContainerShadow(),
+          color: _getContainerColor(),
+          border: _getContainerBorder(),
           borderRadius:
               BorderRadius.circular(_formActivated ? 20 : _borderRadius),
         ),
@@ -286,6 +294,47 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         height: _height,
       ),
     );
+  }
+
+  List<BoxShadow>? _getContainerShadow() {
+    switch (_currentChildren) {
+      case _ChildrenType.form:
+        return [
+          BoxShadow(
+              color: _secondaryColor.withOpacity(0.3),
+              spreadRadius: 5,
+              blurRadius: 10)
+        ];
+      default:
+        return null;
+    }
+  }
+
+  BoxBorder? _getContainerBorder() {
+    switch (_currentChildren) {
+      case _ChildrenType.form:
+        return Border.all(
+          color: _formActivated ? _secondaryColor : Colors.transparent,
+          width: 1,
+        );
+      default:
+        return null;
+    }
+  }
+
+  Color _getContainerColor() {
+    switch (_currentChildren) {
+      case _ChildrenType.base:
+        return _secondaryColor.withOpacity(_opacity);
+      case _ChildrenType.form:
+        return _color.withOpacity(_opacity);
+      case _ChildrenType.applause:
+        return Colors.transparent;
+      case _ChildrenType.flip:
+        return Colors.transparent;
+      case _ChildrenType.psycho:
+        return Colors.transparent;
+    }
   }
 
   Widget _getContainerChild() {
@@ -298,11 +347,9 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         return _applauseChildContainer();
       case _ChildrenType.flip:
         return _flipChildContainer();
+      case _ChildrenType.psycho:
+        return _psychoChildContainer();
     }
-
-    if (_applause) {
-    } else if (!_formActivated) {
-    } else {}
   }
 
   Widget _baseChild() {
@@ -619,6 +666,12 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   Widget _flipChildContainer() {
     return Container();
+  }
+
+  Widget _psychoChildContainer() {
+    return Container(
+      color: Color.fromRGBO(_timerRed, _timerRed, _timerBlue, 1),
+    );
   }
 
   double _getApplauseShadowOpacity() {
@@ -1121,6 +1174,23 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         _offset = Offset.zero;
       }
       _draggable = !_draggable;
+    });
+  }
+
+  Widget _psychoChild() {
+    return Icon(
+      Icons.color_lens_sharp,
+      color: _secondaryColor,
+      size: _iconSize,
+    );
+  }
+
+  void _psychoTap() {
+    setState(() {
+      _width = _maxWidth;
+      _height = _maxHeight;
+      _borderRadius = 0;
+      _currentChildren = _ChildrenType.psycho;
     });
   }
 }
