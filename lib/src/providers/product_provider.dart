@@ -16,8 +16,6 @@ class ProductProvider with ChangeNotifier {
   late TabController tabController;
   late ScrollController scrollController;
 
-  late bool _listen;
-
   final collapsedHeight = 60.0;
   final tabHeight = 80.0;
   final heightTabCollapsed = 140.0;
@@ -70,16 +68,19 @@ class ProductProvider with ChangeNotifier {
     ),
   ];
 
+  bool processScroll = false;
+
   @override
+  // ignore: must_call_super
   void dispose() {
     scrollController.dispose();
     tabController.dispose();
     listProductCategory = [];
     tabs = [];
-    // super.dispose();
   }
 
   init(TickerProvider ticker) {
+    processScroll = false;
     scrollController = ScrollController();
 
     final productsTwo = [...products];
@@ -112,7 +113,7 @@ class ProductProvider with ChangeNotifier {
         products: productsFour,
       ),
     ];
-    _listen = true;
+
     double offsetFrom = 0;
     double offsetTo = 0;
     for (int i = 0; i < listProductCategory.length; i++) {
@@ -152,14 +153,16 @@ class ProductProvider with ChangeNotifier {
   }
 
   void _onScrollListener() {
-    for (int i = 0; i < tabs.length; i++) {
-      final tab = tabs[i];
-      if (scrollController.offset >= tab.offsetFrom &&
-          scrollController.offset <= tab.offsetTo &&
-          !tab.selected) {
-        onCategorySelected(i, animationRequired: false);
-        tabController.animateTo(i);
-        break;
+    if (!processScroll) {
+      for (int i = 0; i < tabs.length; i++) {
+        final tab = tabs[i];
+        if (scrollController.offset >= tab.offsetFrom &&
+            scrollController.offset <= tab.offsetTo &&
+            !tab.selected) {
+          onCategorySelected(i, animationRequired: false);
+          tabController.animateTo(i);
+          break;
+        }
       }
     }
   }
@@ -171,12 +174,12 @@ class ProductProvider with ChangeNotifier {
     }
 
     notifyListeners();
-
+    
     if (animationRequired) {
-      _listen = false;
+      processScroll = true;
       await scrollController.animateTo(selected.offsetFrom,
           duration: const Duration(milliseconds: 500), curve: Curves.linear);
-      _listen = true;
+      processScroll = false;
     }
   }
 }

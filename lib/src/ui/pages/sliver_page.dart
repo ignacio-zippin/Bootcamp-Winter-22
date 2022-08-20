@@ -98,52 +98,52 @@ class _SliverPageState extends StateMVC<SliverPage>
             ],
           ],
         ));
-    //return
   }
 
-  Widget _body() {
-    return AnimatedBuilder(
-      animation: _productProvider,
-      builder: (_, __) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            color: Colors.white,
-            height: 80,
-            child: Row(children: const [
-              Text('HomePage'),
-            ]),
-          ),
-          SizedBox(
-              height: 80,
-              child: TabBar(
-                onTap: _productProvider.onCategorySelected,
-                controller: _productProvider.tabController,
-                indicatorWeight: 0.1,
-                isScrollable: true,
-                tabs: _productProvider.tabs
-                    .map((e) => TabComponent(tabCategory: e))
-                    .toList(),
-              )),
-          Expanded(
-            child: ListView.builder(
-                controller: _productProvider.scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: _productProvider.items.length,
-                itemBuilder: (context, index) {
-                  final item = _productProvider.items[index];
-                  if (item.isCategory) {
-                    return CategoryItemComponent(
-                        category: item.productCategory);
-                  } else {
-                    return ProductItemComponent(product: item.product);
-                  }
-                }),
-          ),
-        ],
-      ),
-    );
-  }
+  // FirstVersion
+  // Widget _body() {
+  //   return AnimatedBuilder(
+  //     animation: _productProvider,
+  //     builder: (_, __) => Column(
+  //       crossAxisAlignment: CrossAxisAlignment.stretch,
+  //       children: [
+  //         Container(
+  //           color: Colors.white,
+  //           height: 80,
+  //           child: Row(children: const [
+  //             Text('HomePage'),
+  //           ]),
+  //         ),
+  //         SizedBox(
+  //             height: 80,
+  //             child: TabBar(
+  //               onTap: _productProvider.onCategorySelected,
+  //               controller: _productProvider.tabController,
+  //               indicatorWeight: 0.1,
+  //               isScrollable: true,
+  //               tabs: _productProvider.tabs
+  //                   .map((e) => TabComponent(tabCategory: e))
+  //                   .toList(),
+  //             )),
+  //         Expanded(
+  //           child: ListView.builder(
+  //               controller: _productProvider.scrollController,
+  //               padding: const EdgeInsets.symmetric(horizontal: 20),
+  //               itemCount: _productProvider.items.length,
+  //               itemBuilder: (context, index) {
+  //                 final item = _productProvider.items[index];
+  //                 if (item.isCategory) {
+  //                   return CategoryItemComponent(
+  //                       category: item.productCategory);
+  //                 } else {
+  //                   return ProductItemComponent(product: item.product);
+  //                 }
+  //               }),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
 
 class TabComponent extends StatelessWidget {
