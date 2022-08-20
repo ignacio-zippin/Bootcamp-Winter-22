@@ -1,14 +1,17 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:playground_app/src/models/horizontal_options_transition/song_model.dart';
 
 // ignore: must_be_immutable
 class SongItem extends StatefulWidget {
+  final audioPlayer = AudioPlayer();
   SongModel song;
   int count;
   bool delayAimation;
+  String url = "https://www.youtube.com/watch?v=OUiizphm9EU";
 
   SongItem(this.song, this.count, this.delayAimation, {Key? key})
       : super(key: key);
@@ -25,8 +28,9 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   late AnimationController cdController;
   late AnimationController playingRotationController;
   late AnimationController playingTranslationController;
-  bool showPlayingIcons = false;
+  bool showPlayIcon = true;
   bool isPlaying = false;
+  bool hasStarted = false;
 
   @override
   void initState() {
@@ -55,6 +59,8 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
       vsync: this,
     );
 
+    //widget.audioPlayer.setSource(AssetSource('audios/la_mano_de_dios.mp3'));
+
     super.initState();
   }
 
@@ -69,10 +75,15 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.count == 1) {}
     if (!widget.delayAimation) {
-      moveController.forward(from: 0);
+      if (playingRotationController.status == AnimationStatus.dismissed &&
+          hasStarted == false) {
+        moveController.forward(from: 0);
+      }
     } else {
       cdController.reverse();
+      hasStarted = false;
     }
     return Container(
       key: containerKey,
@@ -126,111 +137,132 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     }
     return Row(
       children: [
-        GestureDetector(
-          onTap: () {
-            if (!isPlaying) {
-              playingTranslationController.forward();
-              playingRotationController.repeat();
-              setState(() {
-                isPlaying = true;
-              });
-            } else {
-              playingRotationController.reverse();
-              playingTranslationController.reverse().whenComplete(() {
-                playingRotationController.stop();
-              });
-              setState(() {
-                isPlaying = false;
-              });
-            }
-          },
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Positioned(
-                top: 5,
-                child: Image.asset(
-                  song.image,
-                  height: imageSize,
-                  width: imageSize,
-                ),
+        Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            Positioned(
+              top: 5,
+              child: Image.asset(
+                song.image,
+                height: imageSize,
+                width: imageSize,
               ),
-              AnimatedBuilder(
-                  animation: cdController,
-                  builder: (context, snapshot) {
-                    if (widget.count == 1) {
-                      cdAnimation =
-                          moveController.status == AnimationStatus.completed
-                              ? cdController.value
-                              : 1 - moveController.value;
-                    }
-                    return Positioned(
-                      top: 10,
-                      left: (imageSize - cdSize / 1.7) * cdAnimation,
+            ),
+            AnimatedBuilder(
+                animation: cdController,
+                builder: (context, snapshot) {
+                  if (widget.count == 1) {
+                    cdAnimation =
+                        moveController.status == AnimationStatus.completed
+                            ? cdController.value
+                            : 1 - moveController.value;
+                  }
+                  return Positioned(
+                    top: 10,
+                    left: (imageSize - cdSize / 1.7) * cdAnimation,
+                    child: AnimatedBuilder(
+                      animation: playingTranslationController,
+                      builder: (BuildContext context, Widget? child) {
+                        return Transform.translate(
+                          offset: Offset(
+                              playingTranslationController.value *
+                                  (MediaQuery.of(context).size.width - 250),
+                              0),
+                          child: child,
+                        );
+                      },
                       child: AnimatedBuilder(
-                        animation: playingTranslationController,
+                        animation: playingRotationController,
                         builder: (BuildContext context, Widget? child) {
-                          return Transform.translate(
-                            offset: Offset(
-                                playingTranslationController.value *
-                                    (MediaQuery.of(context).size.width - 250),
-                                0),
+                          return Transform.rotate(
+                            angle: playingRotationController.value * 2.0 * pi,
                             child: child,
                           );
                         },
-                        child: AnimatedBuilder(
-                          animation: playingRotationController,
-                          builder: (BuildContext context, Widget? child) {
-                            return Transform.rotate(
-                              angle: playingRotationController.value * 2.0 * pi,
-                              child: child,
-                            );
-                          },
-                          child: Image.asset(
-                            'images/horizontal_options_transition/song_list/cd.png',
-                            width: cdSize,
-                            height: cdSize,
-                          ),
+                        child: Image.asset(
+                          'images/horizontal_options_transition/song_list/cd.png',
+                          width: cdSize,
+                          height: cdSize,
                         ),
                       ),
-                    );
-                  }),
-              ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    width: imageSize,
-                    height: imageSize + 20,
-                    child: Image.asset(
-                      song.image,
-                      height: imageSize,
-                      width: imageSize,
                     ),
+                  );
+                }),
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  width: imageSize,
+                  height: imageSize + 20,
+                  child: Image.asset(
+                    song.image,
+                    height: imageSize,
+                    width: imageSize,
                   ),
                 ),
-              )
-            ],
+              ),
+            )
+          ],
+        ),
+        Visibility(
+          visible: widget.count == 1 && isPlaying == true,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Icon(Icons.volume_up, size: 30),
+                GestureDetector(
+                    onTap: () async {
+                      await widget.audioPlayer.stop();
+                      playingRotationController.reverse();
+                      playingTranslationController.reverse().whenComplete(() {
+                        setState(() {
+                          showPlayIcon = true;
+                          hasStarted = true;
+                        });
+                      });
+                      setState(() {
+                        isPlaying = false;
+                        hasStarted = false;
+                      });
+                    },
+                    child: const Icon(Icons.stop, size: 30)),
+                const Icon(Icons.volume_down, size: 30),
+              ],
+            ),
           ),
         ),
-        Row(
-          children: [
-            Visibility(
-              visible: widget.count == 1 && isPlaying == true,
-              child: const SizedBox(width: 10),
+        Visibility(
+          visible: widget.count == 1 && showPlayIcon == true,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 70, bottom: 18),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showPlayIcon = false;
+                    });
+                    playingTranslationController
+                        .forward()
+                        .whenComplete(() async {
+                      await widget.audioPlayer.play(
+                          AssetSource('audios/la_mano_de_dios.mp3'),
+                          volume: 1);
+                      setState(() {
+                        isPlaying = true;
+                      });
+                    });
+                    playingRotationController.repeat();
+                  },
+                  child: const Icon(Icons.play_circle, size: 50),
+                ),
+              ],
             ),
-            Visibility(
-              visible: widget.count == 1 && isPlaying == true,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Icon(Icons.volume_up, size: 30),
-                  Icon(Icons.stop, size: 30),
-                  Icon(Icons.volume_down, size: 30),
-                ],
-              ),
-            ),
-          ],
+          ),
         )
       ],
     );
