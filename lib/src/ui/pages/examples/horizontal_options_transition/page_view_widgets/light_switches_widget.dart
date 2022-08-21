@@ -22,13 +22,16 @@ class _LightSwitchesWidgetState extends State<LightSwitchesWidget> {
   Widget build(BuildContext context) {
     final model = Provider.of<HorizontalOptionsTransitionProvider>(context);
     return Center(
-      child: ListView.builder(
+      child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
+        separatorBuilder: (context, index) {
+          return const SizedBox(height: 20);
+        },
         itemCount: widget.controller.homeItems.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: sliderContainer(
               model,
               index,
