@@ -71,6 +71,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
     cdController.dispose();
     playingTranslationController.dispose();
     playingRotationController.dispose();
+    widget.audioPlayer.stop();
     super.dispose();
   }
 
