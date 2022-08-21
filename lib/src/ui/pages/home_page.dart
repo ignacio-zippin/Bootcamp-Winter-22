@@ -80,7 +80,7 @@ class _HomePageState extends StateMVC<HomePage> {
                   onCardTap: () {
                     _con.onPressExample1();
                   },
-                  imagePath: "images/home/horizontal_options_transition_3.gif",
+                  imagePath: "images/home/horizontal_options_transition.gif",
                 ),
                 const SizedBox(
                   height: 20,
