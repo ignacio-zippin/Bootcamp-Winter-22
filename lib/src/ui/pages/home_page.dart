@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/ui/components/appbar/custom_navigation_bar_component.dart';
-import 'package:playground_app/src/ui/components/buttons/rounded_button_component.dart';
 import 'package:playground_app/src/ui/components/cards/home_card_component.dart';
 import 'package:playground_app/src/ui/components/menu/menu_component.dart';
 import 'package:playground_app/src/ui/page_controllers/home_page_controller.dart';
