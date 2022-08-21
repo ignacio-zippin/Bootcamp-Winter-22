@@ -90,18 +90,54 @@ class HorizontalOptionsTransitionPageController extends ControllerMVC
 
   List<SongModel> getSongs() {
     List<SongModel> songs = [];
-    songs.add(SongModel(0, 'Mi Propio Repo', 'por Eddie Macaroff',
-        'images/horizontal_options_transition/song_list/mi_propio_repo.png'));
-    songs.add(SongModel(1, 'La Mano de Dios', 'por Rodrigo Bueno',
-        'images/horizontal_options_transition/song_list/la_mano_de_dios.png'));
-    songs.add(SongModel(2, 'De Música Ligera', 'por Soda Stereo',
-        'images/horizontal_options_transition/song_list/de_musica_ligera.png'));
-    songs.add(SongModel(3, 'Fix You', 'por Coldplay',
-        'images/horizontal_options_transition/song_list/fix_you.png'));
-    songs.add(SongModel(4, 'Time', 'por Pink Floyd',
-        'images/horizontal_options_transition/song_list/time.png'));
-    songs.add(SongModel(5, 'Feel Good Inc.', 'por Gorillaz',
-        'images/horizontal_options_transition/song_list/feel_good_inc.png'));
+    songs.add(
+      SongModel(
+          0,
+          'Mi Propio Repo',
+          'por Eddie Macaroff',
+          'images/horizontal_options_transition/song_list/mi_propio_repo.png',
+          'audios/mi_propio_repo.mp3'),
+    );
+    songs.add(
+      SongModel(
+          1,
+          'La Mano de Dios',
+          'por Rodrigo Bueno',
+          'images/horizontal_options_transition/song_list/la_mano_de_dios.png',
+          'audios/la_mano_de_dios.mp3'),
+    );
+    songs.add(
+      SongModel(
+          2,
+          'De Música Ligera',
+          'por Soda Stereo',
+          'images/horizontal_options_transition/song_list/de_musica_ligera.png',
+          'audios/de_musica_ligera.mp3'),
+    );
+    songs.add(
+      SongModel(
+          3,
+          'Fix You',
+          'por Coldplay',
+          'images/horizontal_options_transition/song_list/fix_you.png',
+          'audios/fix_you.mp3'),
+    );
+    songs.add(
+      SongModel(
+          4,
+          'Time',
+          'por Pink Floyd',
+          'images/horizontal_options_transition/song_list/time.png',
+          'audios/time.mp3'),
+    );
+    songs.add(
+      SongModel(
+          5,
+          'Feel Good Inc.',
+          'por Gorillaz',
+          'images/horizontal_options_transition/song_list/feel_good_inc.png',
+          'audios/feel_good_inc.mp3'),
+    );
 
     return songs;
   }

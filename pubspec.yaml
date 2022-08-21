@@ -80,6 +80,7 @@ flutter:
     - assets/
     - assets/audios/
     - images/
+    - images/home/
     - images/horizontal_options_transition/
     - images/horizontal_options_transition/song_list/
     - lib/settings/app_settings.json

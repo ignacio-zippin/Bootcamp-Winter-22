@@ -31,6 +31,7 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
   bool showPlayIcon = true;
   bool isPlaying = false;
   bool hasStarted = false;
+  double volume = 0.5;
 
   @override
   void initState() {
@@ -210,10 +211,19 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.volume_up, size: 30),
-                GestureDetector(
+                /*  GestureDetector(
+                    onTap: () async {
+                      if (volume < 1) {
+                        volume += 0.1;
+                        await widget.audioPlayer.setVolume(volume);
+                      }
+                    },
+                    child: const Icon(Icons.volume_up, size: 30)), */
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 18),
+                  child: GestureDetector(
                     onTap: () async {
                       await widget.audioPlayer.stop();
                       playingRotationController.reverse();
@@ -228,8 +238,17 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
                         hasStarted = false;
                       });
                     },
-                    child: const Icon(Icons.stop, size: 30)),
-                const Icon(Icons.volume_down, size: 30),
+                    child: const Icon(Icons.stop_circle_outlined, size: 45),
+                  ),
+                ),
+                /* GestureDetector(
+                    onTap: () async {
+                      if (volume > 0) {
+                        volume -= 0.1;
+                        await widget.audioPlayer.setVolume(volume - 0.1);
+                      }
+                    },
+                    child: const Icon(Icons.volume_down, size: 30)), */
               ],
             ),
           ),
@@ -249,9 +268,8 @@ class _SongItemState extends State<SongItem> with TickerProviderStateMixin {
                     playingTranslationController
                         .forward()
                         .whenComplete(() async {
-                      await widget.audioPlayer.play(
-                          AssetSource('audios/la_mano_de_dios.mp3'),
-                          volume: 1);
+                      await widget.audioPlayer
+                          .play(AssetSource(song.audio), volume: volume);
                       setState(() {
                         isPlaying = true;
                       });

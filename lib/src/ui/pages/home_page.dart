@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/ui/components/appbar/custom_navigation_bar_component.dart';
 import 'package:playground_app/src/ui/components/buttons/rounded_button_component.dart';
+import 'package:playground_app/src/ui/components/cards/home_card_component.dart';
 import 'package:playground_app/src/ui/components/menu/menu_component.dart';
 import 'package:playground_app/src/ui/page_controllers/home_page_controller.dart';
 import 'package:playground_app/utils/page_args.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends StateMVC<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double otherWidgetsHeight = 75;
     return SafeArea(
       child: Scaffold(
         key: _key,
@@ -67,14 +69,36 @@ class _HomePageState extends StateMVC<HomePage> {
                 ),
                 const Divider(thickness: 2),
                 const SizedBox(
-                  height: 15,
+                  height: 18,
                 ),
-                RoundedButton(
-                  text: "Horizontal Options Transition",
-                  onPressed: () {
+                HomeCardComponent(
+                  height: (MediaQuery.of(context).size.height / 3) -
+                      otherWidgetsHeight,
+                  titleMaxLines: 3,
+                  title: "Transiciones y Animaciones",
+                  subtitle1: "por Ignacio Montaldi",
+                  onCardTap: () {
                     _con.onPressExample1();
                   },
-                  width: double.infinity,
+                  imagePath: "images/home/horizontal_options_transition_3.gif",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                HomeCardComponent(
+                  height: (MediaQuery.of(context).size.height / 3) -
+                      otherWidgetsHeight,
+                  title: "Title",
+                  subtitle1: "por Nahuel Fedyszyn",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                HomeCardComponent(
+                  height: (MediaQuery.of(context).size.height / 3) -
+                      otherWidgetsHeight,
+                  title: "Title",
+                  subtitle1: "por Emanuel Guantay",
                 ),
               ],
             ),
