@@ -182,4 +182,9 @@ class ProductProvider with ChangeNotifier {
       processScroll = false;
     }
   }
+
+  onPressFavorite(Product value){
+    // listProductCategory[0].products.where((element) => element.name == value.name).first.isFavorite == value.isFavorite;
+    // notifyListeners();
+  }
 }

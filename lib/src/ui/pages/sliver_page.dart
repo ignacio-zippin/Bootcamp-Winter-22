@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/models/product_category.dart';
 import 'package:playground_app/src/providers/product_provider.dart';
+import 'package:playground_app/src/ui/components/slivers/favorite/favorite_animation_component.dart';
 import 'package:playground_app/src/ui/page_controllers/sliver_page_controller.dart';
 import 'package:playground_app/utils/page_args.dart';
 import 'package:provider/provider.dart';
@@ -44,8 +45,18 @@ class _SliverPageState extends StateMVC<SliverPage>
     return Scaffold(
       backgroundColor: Colors.white,
       body: bodyContent(),
+      //body: _favorite(),
     );
   }
+
+  // Widget _favorite() {
+  //   return Align(
+  //     alignment: Alignment.centerRight,
+  //     child: Container(
+  //     height: 50,
+  //       child: FavoriteAnimationComponent(isFavorite: false)),
+  //   );
+  // }
 
   Widget _sliverAppBar() {
     return SliverAppBar(
@@ -287,7 +298,7 @@ class SliverBodyItems extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          final product = listItem[index];
+          var product = listItem[index];
           return SizedBox(
             height: 180,
             child: Padding(
@@ -311,35 +322,47 @@ class SliverBodyItems extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                        child: Stack(
+                          clipBehavior: Clip.none, children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              product.description,
-                              maxLines: 4,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w300,
+                              const SizedBox(height: 5),
+                              Text(
+                                product.description,
+                                maxLines: 4,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              product.price,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                              const SizedBox(height: 5),
+                              Text(
+                                product.price,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                          ],
-                        ),
+                              const SizedBox(height: 5),
+                            ],
+                          ),
+                          Positioned(
+                            top: -10,
+                            right: -5,
+                              child: FavoriteAnimationComponent(
+                                  isFavorite: product.isFavorite,
+                                  functionReturn: (bool value,){
+                                    product.isFavorite = value;
+                                    ProductProvider().onPressFavorite(product);
+                                  },))
+                        ]),
                       ),
                     ],
                   ),
