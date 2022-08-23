@@ -25,43 +25,43 @@ class ProductProvider with ChangeNotifier {
 
   List<Product> productsPizza = [
     Product(
-      name: 'Pizza',
+      name: 'Pizza Calabresa',
       image: 'images/product_image/pizza1.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$ 1800',
+      price: '\$ 1400',
       isFavorite: false,
     ),
     Product(
-      name: 'Pizza',
+      name: 'Pizza Muzzarella',
       image: 'images/product_image/pizza2.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$ 1900',
+      price: '\$ 1200',
       isFavorite: false,
     ),
     Product(
-      name: 'Pizza',
-      image: 'images/product_image/pizza3.jpg',
+      name: 'Pizza Fugazzeta',
+      image: 'images/product_image/pizza6.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$ 1800',
+      price: '\$ 1300',
       isFavorite: false,
     ),
     Product(
-      name: 'Pizza',
+      name: 'Pizza con Albahaca',
       image: 'images/product_image/pizza4.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$ 1800',
+      price: '\$ 1200',
       isFavorite: false,
     ),
     Product(
-      name: 'Pizza',
+      name: 'Pizza Especial',
       image: 'images/product_image/pizza5.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1400',
       isFavorite: false,
     ),
   ];
@@ -72,35 +72,35 @@ class ProductProvider with ChangeNotifier {
       image: 'images/product_image/choclate_cake.jpg',
       description:
           'La torta de chocolate es una torta con sabor a chocolate derretido, cacao o ambos.',
-      price: '\$ 2000',
+      price: '\$ 900',
     ),
     Product(
       name: 'Galletas',
       image: 'images/product_image/cookies.jpg',
       description:
           'Una galleta es un producto alimenticio horneado a base de harina, suele ser dura, plana y con mucho sabor.',
-      price: '\$ 500',
+      price: '\$ 200',
     ),
     Product(
       name: 'Brownie De Chocolate',
       image: 'images/product_image/postre2.jpeg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 700',
     ),
     Product(
       name: 'Torta de Chocolate',
       image: 'images/product_image/postre3.jpg',
       description:
           'La torta de chocolate es una torta con sabor a chocolate derretido, con helado.',
-      price: '\$ 2000',
+      price: '\$ 100',
     ),
     Product(
       name: 'Tarta de Frutilla',
       image: 'images/product_image/postre5.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1000',
     ),
   ];
 
@@ -110,35 +110,35 @@ class ProductProvider with ChangeNotifier {
       image: 'images/product_image/pasta1.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1000',
     ),
     Product(
       name: 'Ravioles',
       image: 'images/product_image/pasta2.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1200',
     ),
     Product(
       name: 'Tallarines con Salsa',
       image: 'images/product_image/pasta3.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1000',
     ),
     Product(
       name: 'Sorrentinos',
       image: 'images/product_image/pasta4.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1000',
     ),
     Product(
       name: 'Tallarines con Salsa',
       image: 'images/product_image/pasta5.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$ 2000',
+      price: '\$ 1100',
     ),
   ];
 

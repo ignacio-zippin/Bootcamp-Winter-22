@@ -33,6 +33,10 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
   Size _screen = const Size(0, 0);
   late CurvedAnimation _animator;
   bool isVisibleEnd = false;
+  double _textOpacity = 0;
+  double _textNachoOpacity = 0;
+  double _textEscopetaOpacity = 0;
+  double _textEmaOpacity = 0;
 
   @override
   void initState() {
@@ -176,8 +180,13 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                       children: [
                         GestureDetector(
                           onTap: () {
-                            setState(() {
+                            
                               isVisibleEnd = !isVisibleEnd;
+                              _textOpacity = _textOpacity == 1? 0 : 1;
+                              _textNachoOpacity = _textNachoOpacity == 1? 0 : 1;
+                              _textEscopetaOpacity = _textEscopetaOpacity == 1? 0 : 1;
+                              _textEmaOpacity = _textEmaOpacity == 1? 0 : 1;
+                            setState(() {
                             });
                           },
                           child: Image.asset(
@@ -187,11 +196,28 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                           ),
                         ),
                         const SizedBox(height: 30),
-                        _textItem("Nacho", active: true),
-                        _textItem("Escopeta", active: true),
-                        _textItem("Ema", active: true),
+                        AnimatedOpacity(
+                          opacity: _textNachoOpacity,
+                          duration: const Duration(seconds: 1),
+                          child: _textItem("Nacho", active: true),
+                        ),
+                        AnimatedOpacity(
+                          opacity: _textEscopetaOpacity, 
+                          duration: const Duration(seconds: 3),
+                          child: _textItem("Escopeta", active: true),
+                        ),
+                        AnimatedOpacity(
+                          opacity: _textEmaOpacity,
+                          duration: const Duration(seconds: 4),
+                          child: _textItem("Ema", active: true),
+                        ),
                         const SizedBox(height: 30),
-                        _textItem("¡Muchas Gracias!"),
+                        AnimatedOpacity(
+                          opacity: _textOpacity, 
+                          duration: const Duration(seconds: 6),
+                          child: _textItem("¡Muchas Gracias!"),
+                        )
+                        
                       ],
                     ),
                   ),
