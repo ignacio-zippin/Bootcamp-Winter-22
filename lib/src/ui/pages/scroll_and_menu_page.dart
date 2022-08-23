@@ -151,7 +151,7 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                 children: [
                   Positioned(
                     //top: 40,
-                    top: -40,
+                    top: -25,
                     left: 80,
                     child: Transform.rotate(
                       angle: 90 * (pi / 180),
@@ -159,7 +159,7 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                       child: const Text(
                         "Silentium Apps",
                         style: TextStyle(
-                          fontSize: 90,
+                          fontSize: 100,
                           color: Color(0xFFC7C0B2),
                           shadows: [
                             Shadow(
