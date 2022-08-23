@@ -59,7 +59,6 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   late double _maskWidth;
   late double _maxWidth;
   late double _iconSize;
-  late double _starsSize;
   final Duration _duration = const Duration(milliseconds: 230);
   double _borderRadius = 0;
   double _opacity = 1;
@@ -175,7 +174,6 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       _maxWidth = MediaQuery.of(context).size.width;
       _iconSize = MediaQuery.of(context).size.height * 0.07;
       _maskWidth = _width * 1.3;
-      _starsSize = _width / 8;
     }
     WidgetsBinding.instance?.addPostFrameCallback((_) => _startTimer());
     return _parentWidget(
@@ -449,7 +447,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           _emergencyApplause(),
         ],
       ),
@@ -467,6 +465,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
             style: TextStyle(
               color: Colors.red,
               fontSize: 20,
+              decoration: TextDecoration.underline,
               shadows: [
                 BoxShadow(
                   color: Colors.red,
@@ -736,9 +735,9 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   double _getApplauseShadowOpacity() {
     if (_timerValue < 0.5) {
-      return _timerValue;
+      return _timerValue * 2;
     } else if (_timerValue < 1) {
-      return 1 - (_timerValue);
+      return (1 - (_timerValue)) * 2;
     } else {
       return 0;
     }
@@ -766,7 +765,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: (_maskWidth * _timerValue),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -775,7 +774,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.5) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -784,7 +783,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1.2) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -793,25 +792,25 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1.1) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
         Positioned(
-          right: (_maskWidth * 0.3),
+          right: (_maskWidth * 0.76),
           bottom: ((_maskWidth * 0.2) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
         Positioned(
-          right: (_maskWidth * 0.45),
+          right: (_maskWidth * 0.12),
           bottom: ((_maskWidth * 0.25) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -820,7 +819,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.7) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -831,16 +830,16 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.8) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
         Positioned(
-          right: (_maskWidth * 0.32),
-          bottom: ((_maskWidth * 0.4) * (_timerValue + 0.5)),
+          right: (_maskWidth * 0.58),
+          bottom: ((_maskWidth * 0.4) * (_timerValue2 + 0.5)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -849,7 +848,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -858,7 +857,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1.1) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -867,7 +866,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.2) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -876,7 +875,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.3) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -885,7 +884,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.7) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
-            size: _starsSize,
+            size: (_width / 8),
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -1206,7 +1205,11 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   }
 
   void _applauseTap() async {
-    _applauseOpacity = 0;
+    setState(() {
+      _applauseOpacity = 0;
+      _applauseTextOpacity = 0;
+      _emergencyApplauseTextOpacity = 0;
+    });
     _toggleOffTexts();
     _formActivated = false;
     setState(() {
@@ -1281,6 +1284,5 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       // mode: PlayerMode.lowLatency,
       // volume: 1,
     );
-    log("message");
   }
 }
