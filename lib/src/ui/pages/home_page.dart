@@ -99,6 +99,14 @@ class _HomePageState extends StateMVC<HomePage> {
                   title: "Title",
                   subtitle1: "por Emanuel Guantay",
                 ),
+                const SizedBox(height: 15),
+                RoundedButton(
+                  text: "Shapes and Animations",
+                  onPressed: () {
+                    _con.onPressExample2();
+                  },
+                  width: double.infinity,
+                ),
               ],
             ),
           ),
