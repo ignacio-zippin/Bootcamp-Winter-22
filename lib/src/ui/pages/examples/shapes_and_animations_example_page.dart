@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: unused_field
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +31,6 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   _ShapesAndAnimationsPageState() : super(ShapesAndAnimationsPageController()) {
     _con = ShapesAndAnimationsPageController.con;
   }
-
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   void initState() {
@@ -75,7 +73,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   double _emergencyApplauseTextOpacity = 0;
   Color _color = Colors.white;
   Color _secondaryColor = Colors.black;
-  Color _applauseColor = Colors.red;
+  final Color _applauseColor = Colors.red;
   bool _starsActivated = false;
   bool start = true;
   bool isDark = false;
@@ -84,7 +82,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   bool _applause = false;
   bool _draggable = false;
   _ChildrenType _currentChildren = _ChildrenType.base;
-  static AudioPlayer _player = AudioPlayer();
+  static final AudioPlayer _player = AudioPlayer();
 
   late AnimationController _rotationController;
   late final Animation<double> _rotationAnimation;
@@ -143,8 +141,9 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   }
 
   int _counter = 0;
-  Offset _offset = Offset(0.4, 0.7); // new
+  Offset _offset = const Offset(0.4, 0.7); // new
 
+  // ignore: unused_element
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -193,7 +192,9 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                   color: _draggable ? Colors.black : Colors.transparent,
                 ),
               ),
-              margin: _draggable ? EdgeInsets.all(5) : EdgeInsets.all(0),
+              margin: _draggable
+                  ? const EdgeInsets.all(5)
+                  : const EdgeInsets.all(0),
               child: Column(
                 children: [
                   Expanded(
@@ -286,7 +287,8 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         duration: _duration,
         width: _width,
         height: _height,
-        margin: _formActivated ? EdgeInsets.all(25) : EdgeInsets.all(0),
+        margin:
+            _formActivated ? const EdgeInsets.all(25) : const EdgeInsets.all(0),
         decoration: BoxDecoration(
           boxShadow: _getContainerShadow(),
           color: _getContainerColor(),
@@ -387,7 +389,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
 
   Widget _applauseChildContainer() {
     return AnimatedOpacity(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       opacity: _applauseOpacity,
       child: Column(
         children: [
@@ -460,7 +462,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         opacity: _emergencyApplauseTextOpacity,
         child: GestureDetector(
           onTap: _play,
-          child: Text(
+          child: const Text(
             "Tapear aqui en caso de emergencia",
             style: TextStyle(
               color: Colors.red,
@@ -688,7 +690,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: ItemDataFormComponent.dropDown(
-                        items: ["Argentina", "Chile", "Paraguay"],
+                        items: const ["Argentina", "Chile", "Paraguay"],
                         onChange: (item) {},
                         placeholder: "Pais...",
                         dropdownArrowColor: _secondaryColor,
@@ -702,7 +704,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
             ),
           ),
           AnimatedOpacity(
-            duration: Duration(milliseconds: 700),
+            duration: const Duration(milliseconds: 700),
             opacity: _text7Opacity,
             child: Container(
               color: _secondaryColor,
@@ -1236,7 +1238,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         _applauseTextOpacity = 1;
       });
     });
-    await Future.delayed(Duration(seconds: 4)).then((value) {
+    await Future.delayed(const Duration(seconds: 4)).then((value) {
       setState(() {
         _emergencyApplauseTextOpacity = 1;
       });
@@ -1260,14 +1262,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     });
   }
 
-  Widget _psychoChild() {
-    return Icon(
-      Icons.color_lens_sharp,
-      color: _secondaryColor,
-      size: _iconSize,
-    );
-  }
-
+  // ignore: unused_element
   void _psychoTap() {
     setState(() {
       _width = _maxWidth;

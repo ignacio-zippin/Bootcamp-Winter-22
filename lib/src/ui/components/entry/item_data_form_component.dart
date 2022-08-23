@@ -470,7 +470,7 @@ class _ItemDataFormComponentState extends State<ItemDataFormComponent> {
                   fontWeight: FontWeight.normal,
                   fontSize: widget.dropdownHintSize,
                 ),
-                underline: SizedBox.shrink(),
+                underline: const SizedBox.shrink(),
                 icon: Icon(Icons.keyboard_arrow_down,
                     size: 35, color: widget.dropdownArrowColor),
                 items: widget.items.map((dynamic value) {
