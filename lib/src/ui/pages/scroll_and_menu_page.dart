@@ -187,11 +187,11 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                           ),
                         ),
                         const SizedBox(height: 30),
-                        _buildMenuItem("Nacho", active: true),
-                        _buildMenuItem("Escopeta", active: true),
-                        _buildMenuItem("Ema", active: true),
+                        _textItem("Nacho", active: true),
+                        _textItem("Escopeta", active: true),
+                        _textItem("Ema", active: true),
                         const SizedBox(height: 30),
-                        _buildMenuItem("¡Muchas Gracias!"),
+                        _textItem("¡Muchas Gracias!"),
                       ],
                     ),
                   ),
@@ -225,20 +225,17 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                 ],
               ))));
 
-  _buildMenuItem(String s, {bool active = false}) {
+  _textItem(String value, {bool active = false}) {
     return Visibility(
       visible: isVisibleEnd,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
-        child: InkWell(
-          onTap: () {},
-          child: Text(
-            s.toUpperCase(),
-            style: TextStyle(
-              fontSize: 25,
-              color: active ? const Color(0xffbb0000) : null,
-              fontWeight: FontWeight.w900,
-            ),
+        child: Text(
+          value.toUpperCase(),
+          style: TextStyle(
+            fontSize: 25,
+            color: active ? const Color(0xFFBB0000) : null,
+            fontWeight: FontWeight.w900,
           ),
         ),
       ),
@@ -324,8 +321,9 @@ class TabComponent extends StatelessWidget {
       opacity: selected ? 1 : 0.5,
       child: Card(
         elevation: selected ? 6 : 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
           child: Text(tabCategory.productCategory.category.toString(),
               style: const TextStyle(
                   color: Colors.black,
