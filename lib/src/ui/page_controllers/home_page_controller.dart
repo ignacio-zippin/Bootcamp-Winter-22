@@ -29,7 +29,7 @@ class HomePageController extends ControllerMVC implements IViewController {
     PageManager().goExample1Page();
   }
 
-  onPressSliverButton(){
-    PageManager().goSliverPage();
+  onPressScrollAndMenu(){
+    PageManager().goScrollAndMenuPage();
   }
 }

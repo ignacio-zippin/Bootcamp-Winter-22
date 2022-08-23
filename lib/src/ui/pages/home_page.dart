@@ -97,7 +97,10 @@ class _HomePageState extends StateMVC<HomePage> {
                 HomeCardComponent(
                   height: (MediaQuery.of(context).size.height / 3) -
                       otherWidgetsHeight,
-                  title: "Title",
+                  title: "Scroll & Menu",
+                  onCardTap: () {
+                    _con.onPressScrollAndMenu();
+                  },
                   subtitle1: "por Emanuel Guantay",
                 ),
               ],
@@ -105,12 +108,6 @@ class _HomePageState extends StateMVC<HomePage> {
           ),
         ),
       ),
-    );
-  }
-
-  _sizedBox15() {
-    return const SizedBox(
-      height: 15,
     );
   }
 }

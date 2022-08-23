@@ -10,7 +10,6 @@ import 'package:playground_app/src/providers/horizontal_options_transition_provi
 import 'package:playground_app/src/support/futuristic.dart';
 import 'package:playground_app/src/ui/components/common/loading_component.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
-import 'package:playground_app/src/ui/pages/sliver_3d_page.dart';
 import 'package:playground_app/values/k_colors.dart';
 import 'package:provider/provider.dart';
 

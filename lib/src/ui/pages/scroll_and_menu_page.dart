@@ -9,19 +9,19 @@ import 'package:playground_app/src/ui/page_controllers/sliver_page_controller.da
 import 'package:playground_app/utils/page_args.dart';
 import 'package:provider/provider.dart';
 
-class Sliver3DPage extends StatefulWidget {
+class ScrollAndMenuPage extends StatefulWidget {
   final PageArgs? args;
-  const Sliver3DPage(this.args, {Key? key}) : super(key: key);
+  const ScrollAndMenuPage(this.args, {Key? key}) : super(key: key);
 
   @override
-  _Sliver3DPageState createState() => _Sliver3DPageState();
+  _ScrollAndMenuPageState createState() => _ScrollAndMenuPageState();
 }
 
-class _Sliver3DPageState extends StateMVC<Sliver3DPage>
+class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
     with TickerProviderStateMixin {
   late SliverPageController _con;
 
-  _Sliver3DPageState() : super(SliverPageController()) {
+  _ScrollAndMenuPageState() : super(SliverPageController()) {
     _con = SliverPageController.con;
   }
 
@@ -121,22 +121,6 @@ class _Sliver3DPageState extends StateMVC<Sliver3DPage>
               )),
         ),
       );
-
-  _buildFooterMenuItem(String s) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: InkWell(
-        onTap: () {},
-        child: Text(
-          s.toUpperCase(),
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-      ),
-    );
-  }
 
   _buildDrawer() => Positioned.fill(
       //top: -_extraHeight,
