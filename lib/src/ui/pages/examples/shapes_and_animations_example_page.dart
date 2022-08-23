@@ -1,5 +1,6 @@
-import 'dart:math';
+import 'dart:developer';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/ui/components/entry/item_data_form_component.dart';
@@ -72,6 +73,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   double _text7Opacity = 0;
   double _applauseOpacity = 0;
   double _applauseTextOpacity = 0;
+  double _emergencyApplauseTextOpacity = 0;
   Color _color = Colors.white;
   Color _secondaryColor = Colors.black;
   Color _applauseColor = Colors.red;
@@ -83,6 +85,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   bool _applause = false;
   bool _draggable = false;
   _ChildrenType _currentChildren = _ChildrenType.base;
+  static AudioPlayer _player = AudioPlayer();
 
   late AnimationController _rotationController;
   late final Animation<double> _rotationAnimation;
@@ -388,55 +391,92 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     return AnimatedOpacity(
       duration: Duration(seconds: 1),
       opacity: _applauseOpacity,
-      child: AnimatedContainer(
-        duration: _duration,
-        width: _width,
-        height: _height,
-        decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(
-              color: Colors.red.withOpacity(0.5),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.red.withOpacity(_getApplauseShadowOpacity()),
-                blurRadius: 15,
-                spreadRadius: 15,
-              ),
-            ],
-            borderRadius: BorderRadius.circular(40)),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(40),
-          ),
-          height: double.infinity,
-          width: double.infinity,
-          alignment: Alignment.center,
-          child: AnimatedOpacity(
-            duration: const Duration(seconds: 1),
-            opacity: _applauseTextOpacity,
-            child: Text(
-              "APLAUSOS",
-              style: TextStyle(
-                color: Colors.red.withOpacity(_getApplauseShadowOpacity()),
-                fontSize: 50,
-                shadows: [
-                  BoxShadow(
-                    color: Colors.red.withOpacity(
-                      _getApplauseShadowOpacity(),
+      child: Column(
+        children: [
+          Flexible(
+            child: AnimatedContainer(
+              duration: _duration,
+              width: _width,
+              height: _height,
+              decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: Colors.red.withOpacity(0.5),
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Colors.red.withOpacity(_getApplauseShadowOpacity()),
+                      blurRadius: 15,
+                      spreadRadius: 15,
                     ),
-                    spreadRadius: 10,
-                    blurRadius: 10,
-                  )
+                  ],
+                  borderRadius: BorderRadius.circular(40)),
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    height: double.infinity,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: AnimatedOpacity(
+                      duration: const Duration(seconds: 1),
+                      opacity: _applauseTextOpacity,
+                      child: Text(
+                        "APLAUSOS",
+                        style: TextStyle(
+                          color: Colors.red
+                              .withOpacity(_getApplauseShadowOpacity()),
+                          fontSize: 50,
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.red.withOpacity(
+                                _getApplauseShadowOpacity(),
+                              ),
+                              spreadRadius: 10,
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
+          const SizedBox(height: 10),
+          _emergencyApplause(),
+        ],
       ),
     );
+  }
+
+  Widget _emergencyApplause() {
+    return AnimatedOpacity(
+        duration: const Duration(seconds: 1),
+        opacity: _emergencyApplauseTextOpacity,
+        child: GestureDetector(
+          onTap: _play,
+          child: Text(
+            "Tapear aqui en caso de emergencia",
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 20,
+              shadows: [
+                BoxShadow(
+                  color: Colors.red,
+                  spreadRadius: 10,
+                  blurRadius: 10,
+                )
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _formChildContainer() {
@@ -1193,6 +1233,11 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
         _applauseTextOpacity = 1;
       });
     });
+    await Future.delayed(Duration(seconds: 4)).then((value) {
+      setState(() {
+        _emergencyApplauseTextOpacity = 1;
+      });
+    });
   }
 
   Widget _draggableChild() {
@@ -1227,5 +1272,15 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       _borderRadius = 0;
       _currentChildren = _ChildrenType.psycho;
     });
+  }
+
+  Future<void> _play() async {
+    await _player.setSourceAsset('aplausos.mp3');
+    _player.play(
+      AssetSource("aplausos.mp3"),
+      mode: PlayerMode.lowLatency,
+      volume: 1,
+    );
+    log("message");
   }
 }
