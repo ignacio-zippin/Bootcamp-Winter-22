@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:playground_app/src/enums/page_names.dart';
 import 'package:playground_app/src/managers/data_manager/data_manager.dart';
 import 'package:playground_app/src/providers/app_provider.dart';
+import 'package:playground_app/src/ui/pages/examples/shapes_and_animations_example_page.dart';
 import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition/horizontal_options_transition_page.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
 import 'package:playground_app/src/ui/pages/scroll_and_menu_page.dart';
@@ -55,6 +56,9 @@ class PageManager with PageManagerPopUp {
       case PageNames.scrollAndMenu:
         return MaterialPageRoute(
             builder: (context) => ScrollAndMenuPage(arguments));
+      case PageNames.example2:
+        return MaterialPageRoute(
+            builder: (context) => ShapesAndAnimationsPage(arguments));
 
       default:
     }
@@ -116,5 +120,9 @@ class PageManager with PageManagerPopUp {
 
   goScrollAndMenuPage({PageArgs? args, Function(PageArgs? args)? actionBack}) {
     _goPage(PageNames.scrollAndMenu.toString(), actionBack: actionBack);
+
+  void goExample2Page({PageArgs? args, Function(PageArgs? args)? actionBack}) {
+    _goPage(PageNames.example2.toString(), actionBack: actionBack);
+
   }
 }

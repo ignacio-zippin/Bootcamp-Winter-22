@@ -88,8 +88,11 @@ class _HomePageState extends StateMVC<HomePage> {
                 HomeCardComponent(
                   height: (MediaQuery.of(context).size.height / 3) -
                       otherWidgetsHeight,
-                  title: "Title",
+                  title: "Transformacion de Interfaz",
                   subtitle1: "por Nahuel Fedyszyn",
+                  titleMaxLines: 3,
+                  imagePath: "images/home/shapes.gif",
+                  onCardTap: _con.onPressExample2,
                 ),
                 const SizedBox(
                   height: 20,
