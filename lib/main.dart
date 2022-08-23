@@ -9,6 +9,7 @@ import 'package:playground_app/src/providers/product_provider.dart';
 import 'package:playground_app/src/support/futuristic.dart';
 import 'package:playground_app/src/ui/components/common/loading_component.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
+import 'package:playground_app/src/ui/pages/sliver_3d_page.dart';
 import 'package:playground_app/values/k_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -91,7 +92,8 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   _initPage() {
-    return const HomePage(null);
+    //return const HomePage(null);
+    return Sliver3DPage(null);
     /* return Dashoard o login? */ /* DataManager().hasSession()
         ? InitPage(PageArgs(fromPage: PageNames.main))
         : const LoginPage(); */

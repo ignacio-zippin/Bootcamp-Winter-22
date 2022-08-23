@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:playground_app/src/models/product_category.dart';
@@ -7,30 +9,56 @@ import 'package:playground_app/src/ui/page_controllers/sliver_page_controller.da
 import 'package:playground_app/utils/page_args.dart';
 import 'package:provider/provider.dart';
 
-class SliverPage extends StatefulWidget {
+class Sliver3DPage extends StatefulWidget {
   final PageArgs? args;
-  const SliverPage(this.args, {Key? key}) : super(key: key);
+  const Sliver3DPage(this.args, {Key? key}) : super(key: key);
 
   @override
-  _SliverPageState createState() => _SliverPageState();
+  _Sliver3DPageState createState() => _Sliver3DPageState();
 }
 
-class _SliverPageState extends StateMVC<SliverPage>
-    with SingleTickerProviderStateMixin {
+class _Sliver3DPageState extends StateMVC<Sliver3DPage>
+    with TickerProviderStateMixin {
   late SliverPageController _con;
 
-  _SliverPageState() : super(SliverPageController()) {
+  _Sliver3DPageState() : super(SliverPageController()) {
     _con = SliverPageController.con;
   }
 
   late ProductProvider _productProvider;
+
+  var _maxSlide = 0.75;
+  var _extraHeight = 0.1;
+  late AnimationController _animationController;
+  Size _screen = const Size(0, 0);
+  late CurvedAnimation _animator;
+  bool isVisibleEnd = false;
 
   @override
   void initState() {
     _productProvider = ProductProvider();
     _productProvider.init(this);
     _con.initPage(arguments: widget.args);
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _animator = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOutQuad,
+      reverseCurve: Curves.easeInQuad,
+    );
+    isVisibleEnd = false;
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _screen = MediaQuery.of(context).size;
+    _maxSlide *= _screen.width;
+    _extraHeight *= _screen.height;
+    super.didChangeDependencies();
   }
 
   @override
@@ -44,19 +72,194 @@ class _SliverPageState extends StateMVC<SliverPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: bodyContent(),
-      //body: _favorite(),
+      body: _menu3D(),
     );
   }
 
-  // Widget _favorite() {
-  //   return Align(
-  //     alignment: Alignment.centerRight,
-  //     child: Container(
-  //     height: 50,
-  //       child: FavoriteAnimationComponent(isFavorite: false)),
-  //   );
-  // }
+  _menu3D() {
+    return Material(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          Container(color: Colors.black87),
+          _buildBackground(),
+          _buildDrawer(),
+        ],
+      ),
+    );
+  }
+
+  _buildBackground() => Positioned.fill(
+        child: AnimatedBuilder(
+          animation: _animator,
+          builder: (context, widget) => Transform.translate(
+            offset: Offset(_maxSlide * _animator.value, 0),
+            child: Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateY((pi / 2 + 0.1) * -_animator.value),
+              alignment: Alignment.centerLeft,
+              child: widget,
+            ),
+          ),
+          child: Container(
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  bodyContent(),
+                  IgnorePointer(
+                    child: AnimatedBuilder(
+                      animation: _animator,
+                      builder: (_, __) => Container(
+                        color: Colors.black.withAlpha(
+                          (150 * _animator.value).floor(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      );
+
+  _buildFooterMenuItem(String s) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: InkWell(
+        onTap: () {},
+        child: Text(
+          s.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ),
+    );
+  }
+
+  _buildDrawer() => Positioned.fill(
+      //top: -_extraHeight,
+      bottom: -_extraHeight,
+      left: 0,
+      right: _screen.width - _maxSlide,
+      child: AnimatedBuilder(
+          animation: _animator,
+          builder: (context, widget) {
+            return Transform.translate(
+              offset: Offset(_maxSlide * (_animator.value - 1), 0),
+              child: Transform(
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.001)
+                  ..rotateY(pi * (1 - _animator.value) / 2),
+                alignment: Alignment.centerRight,
+                child: widget,
+              ),
+            );
+          },
+          child: Container(
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  Positioned(
+                    //top: 40,
+                    top: -40,
+                    left: 80,
+                    child: Transform.rotate(
+                      angle: 90 * (pi / 180),
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "Silentium Apps",
+                        style: TextStyle(
+                          fontSize: 100,
+                          color: Color(0xFFC7C0B2),
+                          shadows: [
+                            Shadow(
+                              color: Colors.black26,
+                              blurRadius: 5,
+                              offset: Offset(2.0, 0.0),
+                            ),
+                          ],
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isVisibleEnd = !isVisibleEnd;
+                            });
+                          },
+                          child: Image.asset(
+                            "images/product_image/logo_silentiumapps.png",
+                            fit: BoxFit.contain,
+                            height: 150,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        _buildMenuItem("Nacho", active: true),
+                        _buildMenuItem("Escopeta", active: true),
+                        _buildMenuItem("Ema", active: true),
+                        const SizedBox(height: 30),
+                        _buildMenuItem("¡Muchas Gracias!"),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      alignment: Alignment.topRight,
+                      padding: const EdgeInsets.only(
+                          left: 10,
+                          //top: _extraHeight + 10,
+                          top: 10,
+                          bottom: 10,
+                          right: 10),
+                      icon: const Icon(Icons.arrow_back),
+                      iconSize: 30,
+                      color: Colors.black,
+                      onPressed: _toggleDrawer,
+                    ),
+                  ),
+                  IgnorePointer(
+                    child: AnimatedBuilder(
+                      animation: _animator,
+                      builder: (_, __) => Container(
+                        width: _maxSlide,
+                        color: Colors.black.withAlpha(
+                          (150 * (1 - _animator.value)).floor(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ))));
+
+  _buildMenuItem(String s, {bool active = false}) {
+    return Visibility(
+      visible: isVisibleEnd,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: InkWell(
+          onTap: () {},
+          child: Text(
+            s.toUpperCase(),
+            style: TextStyle(
+              fontSize: 25,
+              color: active ? const Color(0xffbb0000) : null,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _sliverAppBar() {
     return SliverAppBar(
@@ -78,14 +281,21 @@ class _SliverPageState extends StateMVC<SliverPage>
           fit: BoxFit.cover,
         ),
       ),
-
       leading: IconButton(
         alignment: Alignment.center,
         icon: const Icon(Icons.menu),
         color: Colors.white,
-        onPressed: () {},
+        onPressed: _toggleDrawer,
       ),
     );
+  }
+
+  void _toggleDrawer() {
+    if (_animationController.value < 0.5) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
   }
 
   Widget bodyContent() {
@@ -117,51 +327,6 @@ class _SliverPageState extends StateMVC<SliverPage>
           ],
         ));
   }
-
-  // FirstVersion
-  // Widget _body() {
-  //   return AnimatedBuilder(
-  //     animation: _productProvider,
-  //     builder: (_, __) => Column(
-  //       crossAxisAlignment: CrossAxisAlignment.stretch,
-  //       children: [
-  //         Container(
-  //           color: Colors.white,
-  //           height: 80,
-  //           child: Row(children: const [
-  //             Text('HomePage'),
-  //           ]),
-  //         ),
-  //         SizedBox(
-  //             height: 80,
-  //             child: TabBar(
-  //               onTap: _productProvider.onCategorySelected,
-  //               controller: _productProvider.tabController,
-  //               indicatorWeight: 0.1,
-  //               isScrollable: true,
-  //               tabs: _productProvider.tabs
-  //                   .map((e) => TabComponent(tabCategory: e))
-  //                   .toList(),
-  //             )),
-  //         Expanded(
-  //           child: ListView.builder(
-  //               controller: _productProvider.scrollController,
-  //               padding: const EdgeInsets.symmetric(horizontal: 20),
-  //               itemCount: _productProvider.items.length,
-  //               itemBuilder: (context, index) {
-  //                 final item = _productProvider.items[index];
-  //                 if (item.isCategory) {
-  //                   return CategoryItemComponent(
-  //                       category: item.productCategory);
-  //                 } else {
-  //                   return ProductItemComponent(product: item.product);
-  //                 }
-  //               }),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
 
 class TabComponent extends StatelessWidget {
@@ -247,9 +412,6 @@ class ProductItemComponent extends StatelessWidget {
               ],
             ),
           )
-          // Text(product?.name?? '',
-          //   style: TextStyle(
-          //       fontWeight: FontWeight.bold, fontSize: 13)),
         ]),
       ),
     );
