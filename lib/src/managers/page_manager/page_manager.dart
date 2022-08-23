@@ -121,9 +121,8 @@ class PageManager with PageManagerPopUp {
   goScrollAndMenuPage({PageArgs? args, Function(PageArgs? args)? actionBack}) {
     _goPage(PageNames.scrollAndMenu.toString(), actionBack: actionBack);
   }
-  
+
   void goExample2Page({PageArgs? args, Function(PageArgs? args)? actionBack}) {
     _goPage(PageNames.example2.toString(), actionBack: actionBack);
-
   }
 }
