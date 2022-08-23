@@ -4,6 +4,7 @@ import 'package:playground_app/src/managers/data_manager/data_manager.dart';
 import 'package:playground_app/src/providers/app_provider.dart';
 import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition_page.dart';
 import 'package:playground_app/src/ui/pages/examples/shapes_and_animations_example_page.dart';
+import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition/horizontal_options_transition_page.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
 import 'package:playground_app/src/ui/popups/information_alert_popup.dart';
 import 'package:playground_app/utils/page_args.dart';

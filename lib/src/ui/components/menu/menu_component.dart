@@ -255,9 +255,13 @@ class _MenuComponentState extends State<MenuComponent> {
 
   _hasDropdown(bool isDropdownEnabled) {
     if (isDropdownEnabled) {
-      return Image.asset("images/icon_arrow_top.png", height: 15);
+      return Image.asset(
+          "images/horizontal_options_transition/song_list/icon_arrow_top.png",
+          height: 15);
     } else {
-      return Image.asset("images/icon_arrow_bottom.png", height: 15);
+      return Image.asset(
+          "images/horizontal_options_transition/song_list/icon_arrow_bottom.png",
+          height: 15);
     }
   }
 
