@@ -87,8 +87,11 @@ class _HomePageState extends StateMVC<HomePage> {
                 HomeCardComponent(
                   height: (MediaQuery.of(context).size.height / 3) -
                       otherWidgetsHeight,
-                  title: "Title",
+                  title: "Transformacion de Interfaz",
                   subtitle1: "por Nahuel Fedyszyn",
+                  titleMaxLines: 3,
+                  imagePath: "images/home/shapes.gif",
+                  onCardTap: _con.onPressExample2,
                 ),
                 const SizedBox(
                   height: 20,
@@ -98,14 +101,6 @@ class _HomePageState extends StateMVC<HomePage> {
                       otherWidgetsHeight,
                   title: "Title",
                   subtitle1: "por Emanuel Guantay",
-                ),
-                const SizedBox(height: 15),
-                RoundedButton(
-                  text: "Shapes and Animations",
-                  onPressed: () {
-                    _con.onPressExample2();
-                  },
-                  width: double.infinity,
                 ),
               ],
             ),
