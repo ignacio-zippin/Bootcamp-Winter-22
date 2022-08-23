@@ -1275,11 +1275,11 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   }
 
   Future<void> _play() async {
-    await _player.setSourceAsset('aplausos.mp3');
+    // await _player.setSourceAsset('aplausos.mp3');
     _player.play(
       AssetSource("aplausos.mp3"),
-      mode: PlayerMode.lowLatency,
-      volume: 1,
+      // mode: PlayerMode.lowLatency,
+      // volume: 1,
     );
     log("message");
   }
