@@ -88,7 +88,7 @@ class _HomePageState extends StateMVC<HomePage> {
                 HomeCardComponent(
                   height: (MediaQuery.of(context).size.height / 3) -
                       otherWidgetsHeight,
-                  title: "Transformacion de Interfaz",
+                  title: "Transformación de Interfáz",
                   subtitle1: "por Nahuel Fedyszyn",
                   titleMaxLines: 3,
                   imagePath: "images/home/shapes.gif",
