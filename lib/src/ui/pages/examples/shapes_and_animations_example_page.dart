@@ -58,6 +58,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   late double _maskWidth;
   late double _maxWidth;
   late double _iconSize;
+  late double _starsSize;
   final Duration _duration = const Duration(milliseconds: 230);
   double _borderRadius = 0;
   double _opacity = 1;
@@ -171,6 +172,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       _maxWidth = MediaQuery.of(context).size.width;
       _iconSize = MediaQuery.of(context).size.height * 0.07;
       _maskWidth = _width * 1.3;
+      _starsSize = _width / 8;
     }
     WidgetsBinding.instance?.addPostFrameCallback((_) => _startTimer());
     return _parentWidget(
@@ -229,7 +231,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                         _optionBox(child: _formChild(), onTap: _formTap),
                         _optionBox(
                             child: _draggableChild(), onTap: _draggableTap),
-                        _optionBox(child: _psychoChild(), onTap: _psychoTap),
+                        //_optionBox(child: _psychoChild(), onTap: _psychoTap),
                         _optionBox(
                             child: _applauseChild(), onTap: _applauseTap),
                       ],
@@ -281,6 +283,8 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       child: AnimatedContainer(
         curve: Curves.ease,
         duration: _duration,
+        width: _width,
+        height: _height,
         margin: _formActivated ? EdgeInsets.all(25) : EdgeInsets.all(0),
         decoration: BoxDecoration(
           boxShadow: _getContainerShadow(),
@@ -290,8 +294,6 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
               BorderRadius.circular(_formActivated ? 20 : _borderRadius),
         ),
         child: _getContainerChild(),
-        width: _width,
-        height: _height,
       ),
     );
   }
@@ -356,10 +358,28 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     return AnimatedOpacity(
       duration: _duration,
       opacity: _silentiumOpacity,
-      child: Image.asset(
-        _imagePath,
-        fit: BoxFit.cover,
-        color: _opacity < 1 ? Colors.transparent : (_silentium ? _color : null),
+      child: AnimatedContainer(
+        duration: _duration,
+        width: _width,
+        height: _height,
+        decoration: BoxDecoration(
+          color: _secondaryColor.withOpacity(1),
+          borderRadius: BorderRadius.circular(_borderRadius),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(_borderRadius),
+          child: AnimatedOpacity(
+            opacity: _starsActivated ? 0.8 : 1,
+            duration: _duration,
+            child: Image.asset(
+              _imagePath,
+              fit: BoxFit.cover,
+              color: _opacity < 1
+                  ? Colors.transparent
+                  : (_silentium ? _color : null),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -398,7 +418,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
             duration: const Duration(seconds: 1),
             opacity: _applauseTextOpacity,
             child: Text(
-              "ESCOPETA",
+              "APLAUSOS",
               style: TextStyle(
                 color: Colors.red.withOpacity(_getApplauseShadowOpacity()),
                 fontSize: 50,
@@ -706,6 +726,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: (_maskWidth * _timerValue),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -714,6 +735,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.5) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -722,6 +744,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1.2) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -730,6 +753,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1.1) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -738,6 +762,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.2) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -746,6 +771,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.25) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -754,6 +780,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.7) * (_timerValue)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity()),
           ),
         ),
@@ -764,6 +791,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.8) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -772,6 +800,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.4) * (_timerValue + 0.5)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -780,6 +809,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -788,6 +818,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 1.1) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -796,6 +827,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.2) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -804,6 +836,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.3) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -812,6 +845,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
           bottom: ((_maskWidth * 0.7) * (_timerValue2)),
           child: Icon(
             Icons.star_rate,
+            size: _starsSize,
             color: _color.withOpacity(_getStarsOpacity2()),
           ),
         ),
@@ -828,15 +862,15 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     if (_timerValue <= 0) {
       return 0;
     } else if (_timerValue <= 0.5) {
-      return _timerValue;
+      return _timerValue * 2;
     } else if (_timerValue > 0.5) {
       if (_timerValue >= 1) {
         return 0;
       } else {
-        return 1 - _timerValue;
+        return (1 - _timerValue) * 2;
       }
     } else {
-      return 0.5;
+      return 1;
     }
   }
 
@@ -847,15 +881,15 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
     if (_timerValue2 <= 0) {
       return 0;
     } else if (_timerValue2 <= 0.5) {
-      return _timerValue2;
+      return _timerValue2 * 2;
     } else if (_timerValue2 > 0.5) {
       if (_timerValue2 >= 1) {
         return 0;
       } else {
-        return 1 - _timerValue2;
+        return (1 - _timerValue2) * 2;
       }
     } else {
-      return 0.5;
+      return 1;
     }
   }
 
@@ -970,6 +1004,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
   void _hideTap() {
     if (_opacity > 0) {
       setState(() {
+        _starsActivated = false;
         _opacity = 0;
       });
     } else {
@@ -1017,7 +1052,7 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
       setState(() {
         _silentium = !_silentium;
         _imagePath =
-            _silentium ? "images/silentium.png" : "images/icon_alert.png";
+            _silentium ? "images/silentium.png" : "images/barrilete.jpg";
         _silentiumOpacity = 1;
       });
     });
