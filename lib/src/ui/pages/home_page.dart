@@ -101,6 +101,7 @@ class _HomePageState extends StateMVC<HomePage> {
                   height: (MediaQuery.of(context).size.height / 3) -
                       otherWidgetsHeight,
                   title: "Scroll & Menu",
+                  imagePath: "images/home/scroll.gif",
                   onCardTap: () {
                     _con.onPressScrollAndMenu();
                   },
