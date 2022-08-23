@@ -155,7 +155,7 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
                       child: const Text(
                         "Silentium Apps",
                         style: TextStyle(
-                          fontSize: 100,
+                          fontSize: 90,
                           color: Color(0xFFC7C0B2),
                           shadows: [
                             Shadow(
