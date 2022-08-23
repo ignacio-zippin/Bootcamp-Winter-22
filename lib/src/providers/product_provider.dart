@@ -212,7 +212,7 @@ class ProductProvider with ChangeNotifier {
       price: '\$1000',
     ),
     Product(
-      name: 'Proboleta',
+      name: 'Provoleta',
       image: 'images/product_image/entrada3.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -326,7 +326,7 @@ class ProductProvider with ChangeNotifier {
     }
 
     notifyListeners();
-    
+
     if (animationRequired) {
       processScroll = true;
       await scrollController.animateTo(selected.offsetFrom,
@@ -335,7 +335,7 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  onPressFavorite(Product value){
+  onPressFavorite(Product value) {
     // listProductCategory[0].products.where((element) => element.name == value.name).first.isFavorite == value.isFavorite;
     // notifyListeners();
   }
