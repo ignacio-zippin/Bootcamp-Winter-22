@@ -23,204 +23,165 @@ class ProductProvider with ChangeNotifier {
   final productHeight = 180.0;
   final categoryHeight = 55.0;
 
-  final productsPizza = [
+  List<Product> productsPizza = [
     Product(
       name: 'Pizza',
       image: 'images/product_image/pizza1.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$1800',
+      price: '\$ 1800',
+      isFavorite: false,
     ),
     Product(
       name: 'Pizza',
       image: 'images/product_image/pizza2.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$1900',
+      price: '\$ 1900',
+      isFavorite: false,
     ),
     Product(
       name: 'Pizza',
       image: 'images/product_image/pizza3.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$1800',
+      price: '\$ 1800',
+      isFavorite: false,
     ),
     Product(
       name: 'Pizza',
       image: 'images/product_image/pizza4.jpg',
       description:
           'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-      price: '\$1800',
+      price: '\$ 1800',
+      isFavorite: false,
     ),
     Product(
       name: 'Pizza',
       image: 'images/product_image/pizza5.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
+      isFavorite: false,
     ),
   ];
 
-  final productsPostres = [
+  List<Product> productsPostres = [
     Product(
       name: 'Torta de Chocolate',
       image: 'images/product_image/choclate_cake.jpg',
       description:
           'La torta de chocolate es una torta con sabor a chocolate derretido, cacao o ambos.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
-      name: 'Cookies',
+      name: 'Galletas',
       image: 'images/product_image/cookies.jpg',
       description:
           'Una galleta es un producto alimenticio horneado a base de harina, suele ser dura, plana y con mucho sabor.',
-      price: '\$500',
+      price: '\$ 500',
     ),
     Product(
       name: 'Brownie De Chocolate',
       image: 'images/product_image/postre2.jpeg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
       name: 'Torta de Chocolate',
       image: 'images/product_image/postre3.jpg',
       description:
           'La torta de chocolate es una torta con sabor a chocolate derretido, con helado.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
       name: 'Tarta de Frutilla',
       image: 'images/product_image/postre5.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
   ];
 
-  // final products = [
-  //   Product(
-  //     name: 'Torta de Chocolate',
-  //     image: 'images/product_image/choclate_cake.jpg',
-  //     description:
-  //         'La torta de chocolate es una torta con sabor a chocolate derretido, cacao o ambos.',
-  //     price: '\$2000',
-  //   ),
-  //   Product(
-  //     name: 'Pizza',
-  //     image: 'images/product_image/pizza1.jpg',
-  //     description:
-  //         'La pizza es un plato salado de origen italiano que consiste en una base generalmente redonda y aplanada de masa a base de trigo con levadura para hornear.',
-  //     price: '\$1800',
-  //   ),
-  //   Product(
-  //     name: 'Cookies',
-  //     image: 'images/product_image/cookies.jpg',
-  //     description:
-  //         'Una galleta es un producto alimenticio horneado a base de harina, suele ser dura, plana y con mucho sabor.',
-  //     price: '\$500',
-  //   ),
-  //   Product(
-  //     name: 'Sandwich',
-  //     image: 'images/product_image/sandiwch.png',
-  //     description:
-  //         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-  //     price: '\$500',
-  //   ),
-  //   Product(
-  //     name: 'French Fries',
-  //     image: 'images/product_image/french_fries.jpeg',
-  //     description:
-  //         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-  //     price: '\$400',
-  //   ),
-  //   Product(
-  //     name: 'Ceviche',
-  //     image: 'images/product_image/ceviche.jpg',
-  //     description:
-  //         'Los ingredientes básicos son el pescado blanco (aunque se puede hacer con mariscos o una mezcla de ambos), lima, cebolla morada, cilantro y sal.',
-  //     price: '\$1500',
-  //   ),
-  // ];
-
-  final productsPasta = [
+  List<Product> productsPasta = [
     Product(
-      name: 'Noquis',
+      name: 'Ñoquis',
       image: 'images/product_image/pasta1.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
       name: 'Ravioles',
       image: 'images/product_image/pasta2.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
       name: 'Tallarines con Salsa',
       image: 'images/product_image/pasta3.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
       name: 'Sorrentinos',
       image: 'images/product_image/pasta4.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
     Product(
       name: 'Tallarines con Salsa',
       image: 'images/product_image/pasta5.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$2000',
+      price: '\$ 2000',
     ),
   ];
 
-  final productsEntrada = [
+  List<Product> productsEntrada = [
     Product(
       name: 'Sandwich',
       image: 'images/product_image/sandiwch.png',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$500',
+      price: '\$ 500',
     ),
     Product(
       name: 'Papas Fritas',
       image: 'images/product_image/french_fries.jpeg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$700',
+      price: '\$ 700',
     ),
     Product(
       name: 'Rabas',
       image: 'images/product_image/entrada1.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$1200',
+      price: '\$ 1200',
     ),
     Product(
-      name: 'Emapanadas',
+      name: 'Empanadas',
       image: 'images/product_image/entrada2.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$1000',
+      price: '\$ 1000',
     ),
     Product(
       name: 'Provoleta',
       image: 'images/product_image/entrada3.jpg',
       description:
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      price: '\$1000',
+      price: '\$ 1000',
     ),
   ];
 
   bool processScroll = false;
+
 
   @override
   // ignore: must_call_super
@@ -261,7 +222,7 @@ class ProductProvider with ChangeNotifier {
       ),
       ProductCategory(
         id: 4,
-        category: 'Postre',
+        category: 'Postres',
         products: productsPostres,
       ),
     ];

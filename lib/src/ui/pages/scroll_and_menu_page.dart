@@ -257,10 +257,15 @@ class _ScrollAndMenuPageState extends StateMVC<ScrollAndMenuPage>
           ),
           textAlign: TextAlign.center,
         ),
-        background: Image.network(
-          'https://w0.peakpx.com/wallpaper/86/756/HD-wallpaper-macbook-ultra-computers-mac-dark-laptop-technology-computer-keyboard-macbook.jpg',
+        background: Image.asset(
+          "images/product_image/imagen_background.jpeg",
           fit: BoxFit.cover,
+          height: 150,
         ),
+        // background: Image.network(
+        //   'https://images.pexels.com/photos/1766682/pexels-photo-1766682.jpeg',
+        //   fit: BoxFit.cover,
+        // ),
       ),
       leading: IconButton(
         alignment: Alignment.center,

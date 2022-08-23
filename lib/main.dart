@@ -98,7 +98,6 @@ class _MyHomePageState extends State<MyApp> {
 
   _initPage() {
     return const HomePage(null);
-    //return Sliver3DPage(null);
     /* return Dashoard o login? */ /* DataManager().hasSession()
         ? InitPage(PageArgs(fromPage: PageNames.main))
         : const LoginPage(); */
