@@ -2,13 +2,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:playground_app/src/enums/culture.dart';
-import 'package:playground_app/src/managers/data_manager/data_manager.dart';
 import 'package:playground_app/src/managers/page_manager/page_manager.dart';
-import 'package:playground_app/src/providers/app_provider.dart';
 import 'package:playground_app/src/providers/product_provider.dart';
 import 'package:playground_app/src/providers/horizontal_options_transition_provider.dart';
-import 'package:playground_app/src/support/futuristic.dart';
-import 'package:playground_app/src/ui/components/common/loading_component.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
 import 'package:playground_app/values/k_colors.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +16,6 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AppProvider()),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(
             create: (_) => HorizontalOptionsTransitionProvider()),
@@ -52,7 +47,6 @@ class _MyHomePageState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: KPrimary));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    _locale = Locale(getCode(DataManager().selectedCulture), '');
     return MaterialApp(
       supportedLocales: const [
         Locale('es', ''),
@@ -81,26 +75,12 @@ class _MyHomePageState extends State<MyApp> {
         //primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: _home(),
-    );
-  }
-
-  _home() {
-    return Futuristic<void>(
-      autoStart: true,
-      futureBuilder: () => _initApp(),
-      busyBuilder: (context) => SizedBox(
-          height: MediaQuery.of(context).size.height * 0.37,
-          child: loadingComponent(true, backgroundColor: Colors.white)),
-      dataBuilder: (context, data) => _initPage(),
+      home: _initPage(),
     );
   }
 
   _initPage() {
     return const HomePage(null);
-    /* return Dashoard o login? */ /* DataManager().hasSession()
-        ? InitPage(PageArgs(fromPage: PageNames.main))
-        : const LoginPage(); */
   }
 
   changeLanguage(Locale locale) {
@@ -119,8 +99,5 @@ class _MyHomePageState extends State<MyApp> {
   }
 
   _initApp() async {
-    //AppSettings.init(context);
-    await DataManager().init();
-    await AppProvider().init();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:playground_app/values/k_colors.dart';
-import 'package:playground_app/utils/extensions.dart';
 import 'package:playground_app/values/k_values.dart';
 
 class HomeCardComponent extends StatefulWidget {
@@ -137,14 +136,14 @@ class _HomeCardComponentState extends State<HomeCardComponent> {
 
   _title() {
     return Visibility(
-      visible: widget.title.hasValue() || widget.titleRich != null,
+      visible: widget.title != null || widget.titleRich != null,
       child: widget.titleRich ?? _labelTitle(widget.title!, widget.titleStyle),
     );
   }
 
   _subtitle1() {
     return Visibility(
-      visible: widget.subtitle1.hasValue(),
+      visible: widget.subtitle1 != null,
       child: Column(
         children: [
           const SizedBox(height: 5),
@@ -161,7 +160,7 @@ class _HomeCardComponentState extends State<HomeCardComponent> {
 
   _labelTitle(String label, TextStyle? style) {
     return Text(
-      label.hasValue() ? label : "",
+      label,
       textAlign: TextAlign.start,
       softWrap: true,
       maxLines: widget.titleMaxLines ?? 1,
@@ -183,7 +182,7 @@ class _HomeCardComponentState extends State<HomeCardComponent> {
   _label(String? label, TextStyle? style, int? maxLines) {
     return Flexible(
       child: Text(
-        label.hasValue() ? label! : "",
+        label?? "",
         textAlign: TextAlign.start,
         softWrap: true,
         maxLines: maxLines ?? 1,

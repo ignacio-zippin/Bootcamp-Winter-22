@@ -33,12 +33,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
   intl: ^0.17.0
-  dio: ^4.0.0
-  dio_http_cache: ^0.3.0
-  cached_network_image: ^3.2.0
-  flutter_signature_pad: ^3.0.0
   mvc_pattern: ^8.8.2
-  shared_preferences: ^2.0.13
   provider: ^6.0.2
   fluttertoast: ^8.0.8
   image_picker: ^0.8.3+3
@@ -46,18 +41,9 @@ dependencies:
 
   # image
   file_picker: ^4.5.1
-  permission_handler: ^9.2.0
-  flutter_image_compress: ^1.1.0
   image: ^3.1.3
   exif: ^3.0.0
-  image_cropper: ^2.0.3
   
-  #Map
-  flutter_map: ^0.14.0
-  location: ^4.3.0
-  
-  #Discount
-  #futuristic: ^0.1.3
 
 dev_dependencies:
   flutter_lints: ^1.0.4
@@ -84,7 +70,6 @@ flutter:
     - images/home/
     - images/horizontal_options_transition/
     - images/horizontal_options_transition/song_list/
-    - lib/settings/app_settings.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

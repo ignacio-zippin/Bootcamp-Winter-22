@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:playground_app/src/enums/page_names.dart';
-import 'package:playground_app/src/managers/data_manager/data_manager.dart';
-import 'package:playground_app/src/providers/app_provider.dart';
 import 'package:playground_app/src/ui/pages/examples/shapes_and_animations_example_page.dart';
 import 'package:playground_app/src/ui/pages/examples/horizontal_options_transition/horizontal_options_transition_page.dart';
 import 'package:playground_app/src/ui/pages/home_page.dart';
 import 'package:playground_app/src/ui/pages/scroll_and_menu_page.dart';
-import 'package:playground_app/src/ui/popups/information_alert_popup.dart';
 import 'package:playground_app/utils/page_args.dart';
-import 'package:playground_app/values/k_colors.dart';
-import 'package:playground_app/values/k_values.dart';
 
-part 'popups/page_manager.popup.dart';
 
-class PageManager with PageManagerPopUp {
+class PageManager {
   static final PageManager _instance = PageManager._constructor();
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -88,26 +82,9 @@ class PageManager with PageManagerPopUp {
       navigatorKey.currentState!
           .popAndPushNamed(specificPage.toString(), arguments: args);
     } else {
-      //Navigator.pop(navigatorKey.currentContext, args);
       Navigator.pop(navigatorKey.currentState!.overlay!.context, args);
     }
   }
-
-  goRootPage() {
-    //navigatorKey.currentState!.popUntil(ModalRoute.withName('/'));
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-
-  goDoLogout() {
-    AppProvider().closeAlert();
-    DataManager().cleanData();
-    //goLoginPage();
-  }
-
-  /* goLoginPage({PageArgs? args, Function(PageArgs? args)? actionBack}) {
-    _goPage(PageNames.login.toString(),
-        actionBack: actionBack, makeRootPage: true);
-  } */
 
   goHomePage({PageArgs? args, Function(PageArgs? args)? actionBack}) {
     _goPage(PageNames.home.toString(),

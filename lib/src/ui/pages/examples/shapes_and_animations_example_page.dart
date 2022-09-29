@@ -3,7 +3,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:playground_app/src/ui/components/entry/item_data_form_component.dart';
 import 'package:playground_app/src/ui/page_controllers/examples/shapes_and_animations_example_page_controller.dart';
 import 'package:playground_app/utils/page_args.dart';
 
@@ -684,21 +683,21 @@ class _ShapesAndAnimationsPageState extends StateMVC<ShapesAndAnimationsPage>
                       ),
                     ),
                   ),
-                  AnimatedOpacity(
-                    opacity: _text5Opacity,
-                    duration: const Duration(milliseconds: 700),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: ItemDataFormComponent.dropDown(
-                        items: const ["Argentina", "Chile", "Paraguay"],
-                        onChange: (item) {},
-                        placeholder: "Pais...",
-                        dropdownArrowColor: _secondaryColor,
-                        dropdownHintColor: _secondaryColor,
-                        dropdownHintSize: 15,
-                      ),
-                    ),
-                  ),
+                  // AnimatedOpacity(
+                  //   opacity: _text5Opacity,
+                  //   duration: const Duration(milliseconds: 700),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(vertical: 15),
+                  //     child: ItemDataFormComponent.dropDown(
+                  //       items: const ["Argentina", "Chile", "Paraguay"],
+                  //       onChange: (item) {},
+                  //       placeholder: "Pais...",
+                  //       dropdownArrowColor: _secondaryColor,
+                  //       dropdownHintColor: _secondaryColor,
+                  //       dropdownHintSize: 15,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
